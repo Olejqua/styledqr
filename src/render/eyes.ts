@@ -1,4 +1,5 @@
 import type { StyleOptions } from '../encoder/types';
+import { QR_CONFIG } from '../config/qr-config';
 import { ShapeRenderer } from './shapes';
 
 export interface EyePattern {
@@ -19,10 +20,10 @@ export class EyeRenderer {
    */
   renderEye(_x: number, _y: number, moduleSize: number): EyePattern {
     const eyeStyle = this.style.eyeStyle || 'square';
-    const cornerRadius = moduleSize * 0.6;
+    const cornerRadius = moduleSize * QR_CONFIG.CORNER_RADIUS_MULTIPLIER;
 
     // Outer square (7x7 modules)
-    const outerSize = moduleSize * 7;
+    const outerSize = moduleSize * QR_CONFIG.EYE_SIZE;
     const outer = this.renderEyePart(outerSize, eyeStyle, cornerRadius * 3);
 
     // Inner square (5x5 modules)
@@ -110,7 +111,7 @@ export class EyeRenderer {
    * Based on competitor's approach with squareMask and dotMask
    */
   static isEyePosition(row: number, col: number, qrSize: number): boolean {
-    const eyeSize = 7;
+    const eyeSize = QR_CONFIG.EYE_SIZE;
 
     // Top-left eye (0, 0)
     if (row < eyeSize && col < eyeSize) {

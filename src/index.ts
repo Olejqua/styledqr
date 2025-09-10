@@ -22,6 +22,12 @@ export type { ShapeOptions } from './render/shapes';
 export { ShapeRenderer } from './render/shapes';
 export { SVGRenderer } from './render/svg';
 
+// New specialized renderers
+export { BackgroundRenderer } from './render/background-renderer';
+export { ModuleRenderer } from './render/module-renderer';
+export { SVGStringBuilder } from './render/svg-builder';
+export { QR_CONFIG } from './config/qr-config';
+
 /**
  * Main PrettyQR class - simple API for generating beautiful QR codes
  */

@@ -41,6 +41,28 @@ PrettyQR is a TypeScript library for generating beautiful, customizable QR codes
 ### Known Issues
 - None currently identified
 
+## 🔴 **CRITICAL PRIORITY - Code Quality & Performance Issues**
+
+### High Priority (Fix Immediately)
+- [x] **Split SVGRenderer** - Violates SRP, too many responsibilities ✅ COMPLETED
+- [ ] **Optimize Main Rendering Loop** - O(n²) complexity causing performance issues
+- [x] **Remove Magic Numbers** - Replace hardcoded values with configuration ✅ COMPLETED
+- [x] **Implement String Builder Pattern** - Fix memory inefficiency in SVG generation ✅ COMPLETED
+- [ ] **Add Dependency Injection** - Reduce tight coupling between components
+
+### Medium Priority (Next Sprint)
+- [ ] **Implement Factory Pattern** - For better object creation
+- [ ] **Add Strategy Pattern for Styles** - Make style system extensible
+- [ ] **Extract Configuration System** - Centralize all configuration
+- [ ] **Add Caching Layer** - Cache repeated computations
+- [ ] **Improve Error Handling** - Add proper error management
+
+### Low Priority (Future Releases)
+- [ ] **Add Performance Metrics** - Monitor and track performance
+- [ ] **Implement Plugin Architecture** - For extensibility
+- [ ] **Add Memory Optimization** - Reduce memory footprint
+- [ ] **Improve Code Documentation** - Add comprehensive docs
+
 ## 📋 Planned Features
 
 ### Short Term (v0.2.0)
