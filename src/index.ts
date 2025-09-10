@@ -75,6 +75,13 @@ export class PrettyQR {
 
     URL.revokeObjectURL(url);
   }
+
+  /**
+   * Get performance metrics for current QR code
+   */
+  getPerformanceMetrics(): any {
+    return this.renderer.getPerformanceMetrics();
+  }
 }
 
 // Default export

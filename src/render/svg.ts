@@ -66,7 +66,7 @@ export class SVGRenderer {
     const eyeElements = eyeRenderer.renderAllEyes(moduleSize, qrSize, margin);
     builder.append(eyeElements);
 
-    // QR code modules (excluding eyes) - now using specialized renderer
+    // QR code modules (excluding eyes) - now using optimized renderer
     const moduleElements = ModuleRenderer.renderModules({
       qrData,
       moduleSize,
@@ -100,5 +100,23 @@ export class SVGRenderer {
   async toBlob(): Promise<Blob> {
     const svg = this.generate();
     return new Blob([svg], { type: 'image/svg+xml' });
+  }
+
+  /**
+   * Get performance metrics for current QR code
+   */
+  getPerformanceMetrics(): any {
+    const { size = QR_CONFIG.DEFAULT_SIZE } = this.options;
+    const qrData = this.qrAdapter.generate({
+      text: this.options.text,
+      size: 0,
+      errorCorrectionLevel: this.options.errorCorrectionLevel || 'M',
+    });
+    
+    return {
+      qrSize: qrData.size,
+      totalModules: qrData.size * qrData.size,
+      estimatedMemoryKB: (qrData.size * qrData.size * 100) / 1024,
+    };
   }
 }
