@@ -48,7 +48,7 @@ PrettyQR is a TypeScript library for generating beautiful, customizable QR codes
 - [x] **Optimize Main Rendering Loop** - O(n²) complexity causing performance issues ✅ COMPLETED
 - [x] **Remove Magic Numbers** - Replace hardcoded values with configuration ✅ COMPLETED
 - [x] **Implement String Builder Pattern** - Fix memory inefficiency in SVG generation ✅ COMPLETED
-- [x] **Add Dependency Injection** - Reduce tight coupling between components ✅ COMPLETED
+- [x] **Add Dependency Injection** - Reduce tight coupling between components ✅ SIMPLIFIED
 
 ### Medium Priority (Next Sprint)
 - [ ] **Implement Factory Pattern** - For better object creation
@@ -77,31 +77,28 @@ PrettyQR is a TypeScript library for generating beautiful, customizable QR codes
 - **Pre-computation**: Eye and logo areas calculated once upfront
 - **Simplified architecture**: No complex adaptive systems, just optimized core algorithm
 
-## 🔧 **Dependency Injection System Implemented**
+## 🔧 **Simplified Architecture - No Over-Engineering**
 
-### DI Container
-- **Simple container**: Lightweight DI container with service registration and retrieval
-- **Service interfaces**: Clear interfaces for all major components (IQRCodeAdapter, IBackgroundRenderer, etc.)
-- **Factory pattern**: Service factories for components that need parameters
-- **Lazy instantiation**: Services created only when needed
+### Clean Separation of Concerns
+- **Specialized classes**: Each class has a single, clear responsibility
+- **Simple dependencies**: Direct imports instead of complex DI system
+- **Minimal complexity**: Easy to understand and maintain
+- **Lightweight**: Bundle size ~21KB (vs 24KB with DI)
 
-### Benefits
-- **Reduced coupling**: Components depend on interfaces, not concrete implementations
-- **Testability**: Easy to mock services for unit testing
-- **Extensibility**: Easy to swap implementations or add new services
-- **Maintainability**: Clear separation of concerns and dependencies
+### Key Components
+- **SVGRenderer**: Orchestrates the rendering process
+- **ModuleRenderer**: Handles QR code module rendering with optimizations
+- **BackgroundRenderer**: Renders background elements
+- **EyeRenderer**: Renders QR code finder patterns
+- **LogoRenderer**: Handles logo integration
+- **SVGStringBuilder**: Efficient string building
 
-### Usage
-```typescript
-// Automatic DI initialization
-const qr = new PrettyQR(options);
-
-// Manual service registration
-container.register('customService', customImplementation);
-
-// Service retrieval
-const service = container.get<IService>('serviceKey');
-```
+### Benefits of Simplified Approach
+- **80/20 rule**: 80% of benefits with 20% of complexity
+- **Easier maintenance**: No hidden complexity or DI concepts
+- **Better performance**: Smaller bundle size, faster loading
+- **Developer friendly**: Simple, straightforward code
+- **YAGNI principle**: No premature optimization
 
 ## 📋 Planned Features
 

@@ -1,6 +1,5 @@
 import type { PrettyQROptions } from './encoder/types';
 import { SVGRenderer } from './render/svg';
-import { initializeDI } from './di/setup';
 
 export { QRCodeAdapter } from './encoder/adapter-qrcode-generator';
 export type {
@@ -29,10 +28,6 @@ export { ModuleRenderer } from './render/module-renderer';
 export { SVGStringBuilder } from './render/svg-builder';
 export { QR_CONFIG } from './config/qr-config';
 
-// Dependency Injection
-export { container, SERVICE_KEYS } from './di/container';
-export type * from './di/interfaces';
-export { initializeDI } from './di/setup';
 
 /**
  * Main PrettyQR class - simple API for generating beautiful QR codes
@@ -41,8 +36,6 @@ export class PrettyQR {
   private renderer: SVGRenderer;
 
   constructor(options: PrettyQROptions) {
-    // Initialize DI container if not already done
-    initializeDI();
     this.renderer = new SVGRenderer(options);
   }
 
