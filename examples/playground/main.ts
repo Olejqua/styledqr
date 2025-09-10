@@ -30,15 +30,15 @@ const presets = {
   rounded: {
     background: '#ffffff',
     foreground: '#2563eb',
-    eyeStyle: 'square',
+    eyeStyle: 'rounded',
     patternStyle: 'rounded',
     logo: '',
   },
-  diamond: {
+  'full-rounded': {
     background: '#ffffff',
     foreground: '#000000',
-    eyeStyle: 'diamond',
-    patternStyle: 'diamond',
+    eyeStyle: 'full-rounded',
+    patternStyle: 'square',
     logo: '',
   },
 };
@@ -106,6 +106,11 @@ function applyPreset(presetName: string) {
 // Generate QR code
 function generateQR() {
   try {
+    console.log('Generating QR with styles:', {
+      eyeStyle: eyeStyleSelect.value,
+      patternStyle: patternStyleSelect.value
+    });
+    
     const options = {
       text: textInput.value || 'https://github.com/your-username/prettyqr',
       size: parseInt(sizeInput.value, 10),
@@ -113,7 +118,7 @@ function generateQR() {
       style: {
         background: backgroundInput.value,
         foreground: foregroundInput.value,
-        eyeStyle: eyeStyleSelect.value as 'square' | 'rounded' | 'circle' | 'diamond',
+        eyeStyle: eyeStyleSelect.value as 'square' | 'rounded' | 'full-rounded',
         patternStyle: patternStyleSelect.value as
           | 'square'
           | 'rounded'

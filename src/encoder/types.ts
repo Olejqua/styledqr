@@ -22,7 +22,7 @@ export interface LogoOptions {
 export interface StyleOptions {
   background?: string;
   foreground?: string;
-  eyeStyle?: 'square' | 'rounded' | 'circle' | 'diamond';
+  eyeStyle?: 'square' | 'rounded' | 'full-rounded';
   cornerStyle?: 'square' | 'rounded' | 'circle' | 'diamond';
   patternStyle?: 'square' | 'rounded' | 'circle' | 'diamond';
 }

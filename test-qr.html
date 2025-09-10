@@ -79,6 +79,14 @@
                 <h3>Rounded Eyes + Square Pattern</h3>
                 <div class="qr-code" id="mixed-qr"></div>
             </div>
+            <div class="qr-item">
+                <h3>Eye Center: Rounded, Border: Square</h3>
+                <div class="qr-code" id="eye-center-rounded-qr"></div>
+            </div>
+            <div class="qr-item">
+                <h3>Eye Center: Full Rounded, Border: Rounded</h3>
+                <div class="qr-code" id="eye-full-rounded-qr"></div>
+            </div>
         </div>
     </div>
 
@@ -148,6 +156,34 @@
                 eyeStyle: 'rounded'
             }
         });
+
+        // Eye center rounded, border square
+        const eyeCenterRoundedQR = new PrettyQR({
+            text,
+            size: 300,
+            style: {
+                background: '#ffffff',
+                foreground: '#dc2626',
+                patternStyle: 'square',
+                eyeStyle: 'square',
+                eyeCenterStyle: 'rounded',
+                eyeBorderStyle: 'square'
+            }
+        });
+
+        // Eye center full rounded, border rounded
+        const eyeFullRoundedQR = new PrettyQR({
+            text,
+            size: 300,
+            style: {
+                background: '#ffffff',
+                foreground: '#7c3aed',
+                patternStyle: 'square',
+                eyeStyle: 'square',
+                eyeCenterStyle: 'full-rounded',
+                eyeBorderStyle: 'rounded'
+            }
+        });
         
         // Render all QR codes
         document.getElementById('square-qr').innerHTML = squareQR.toSVG();
@@ -155,6 +191,8 @@
         document.getElementById('circle-qr').innerHTML = circleQR.toSVG();
         document.getElementById('diamond-qr').innerHTML = diamondQR.toSVG();
         document.getElementById('mixed-qr').innerHTML = mixedQR.toSVG();
+        document.getElementById('eye-center-rounded-qr').innerHTML = eyeCenterRoundedQR.toSVG();
+        document.getElementById('eye-full-rounded-qr').innerHTML = eyeFullRoundedQR.toSVG();
     </script>
 </body>
 </html>

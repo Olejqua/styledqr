@@ -21,49 +21,69 @@ export class EyeRenderer {
     const eyeStyle = this.style.eyeStyle || 'square';
     const cornerRadius = moduleSize * 0.2;
 
-    // Outer square (7x7 modules) - but render as single squares
+    // Outer square (7x7 modules)
     const outerSize = moduleSize * 7;
-    const outer = ShapeRenderer.render({
-      size: outerSize,
-      style: eyeStyle,
-      cornerRadius: eyeStyle === 'rounded' ? cornerRadius * 3 : 0,
-    });
+    const outer = this.renderEyePart(outerSize, eyeStyle, cornerRadius * 3);
 
     // Inner square (5x5 modules)
     const innerSize = moduleSize * 5;
-    const inner = ShapeRenderer.render({
-      size: innerSize,
-      style: eyeStyle,
-      cornerRadius: eyeStyle === 'rounded' ? cornerRadius * 2 : 0,
-    });
+    const inner = this.renderEyePart(innerSize, eyeStyle, cornerRadius * 2);
 
     // Center square (3x3 modules)
     const centerSize = moduleSize * 3;
-    const center = ShapeRenderer.render({
-      size: centerSize,
-      style: eyeStyle,
-      cornerRadius: eyeStyle === 'rounded' ? cornerRadius : 0,
-    });
+    const center = this.renderEyePart(centerSize, eyeStyle, cornerRadius);
 
     return { outer, inner, center };
   }
 
   /**
+   * Render a single eye part with specific style
+   */
+  private renderEyePart(size: number, style: 'square' | 'rounded' | 'full-rounded', cornerRadius: number): string {
+    switch (style) {
+      case 'square':
+        return ShapeRenderer.render({
+          size,
+          style: 'square',
+          cornerRadius: 0,
+        });
+      case 'rounded':
+        return ShapeRenderer.render({
+          size,
+          style: 'square',
+          cornerRadius,
+        });
+      case 'full-rounded':
+        return ShapeRenderer.render({
+          size,
+          style: 'circle',
+        });
+      default:
+        return ShapeRenderer.render({
+          size,
+          style: 'square',
+          cornerRadius: 0,
+        });
+    }
+  }
+
+  /**
    * Render all three eyes of a QR code
+   * Based on competitor's approach - three fixed positions
    */
   renderAllEyes(moduleSize: number, qrSize: number, margin: number): string {
     const eyes = [];
 
-    // Top-left eye
+    // Top-left eye (0, 0)
     const topLeft = this.renderEye(0, 0, moduleSize);
     eyes.push(this.wrapEye(topLeft, margin, margin, moduleSize));
 
-    // Top-right eye
-    const topRight = this.renderEye(qrSize - 7, 0, moduleSize);
+    // Top-right eye (0, qrSize-7)
+    const topRight = this.renderEye(0, qrSize - 7, moduleSize);
     eyes.push(this.wrapEye(topRight, (qrSize - 7) * moduleSize + margin, margin, moduleSize));
 
-    // Bottom-left eye
-    const bottomLeft = this.renderEye(0, qrSize - 7, moduleSize);
+    // Bottom-left eye (qrSize-7, 0)
+    const bottomLeft = this.renderEye(qrSize - 7, 0, moduleSize);
     eyes.push(this.wrapEye(bottomLeft, margin, (qrSize - 7) * moduleSize + margin, moduleSize));
 
     return eyes.join('');
@@ -87,23 +107,23 @@ export class EyeRenderer {
 
   /**
    * Check if a position is part of an eye pattern
+   * Based on competitor's approach with squareMask and dotMask
    */
   static isEyePosition(row: number, col: number, qrSize: number): boolean {
     const eyeSize = 7;
-    const margin = 4;
 
-    // Top-left eye
-    if (row < eyeSize + margin && col < eyeSize + margin) {
+    // Top-left eye (0, 0)
+    if (row < eyeSize && col < eyeSize) {
       return true;
     }
 
-    // Top-right eye
-    if (row < eyeSize + margin && col >= qrSize - eyeSize - margin) {
+    // Top-right eye (0, qrSize-7)
+    if (row < eyeSize && col >= qrSize - eyeSize) {
       return true;
     }
 
-    // Bottom-left eye
-    if (row >= qrSize - eyeSize - margin && col < eyeSize + margin) {
+    // Bottom-left eye (qrSize-7, 0)
+    if (row >= qrSize - eyeSize && col < eyeSize) {
       return true;
     }
 

@@ -66,7 +66,11 @@ export class SVGRenderer {
     const backgroundFill = style.background || '#ffffff';
     elements.push(`<rect width="100%" height="100%" fill="${backgroundFill}"/>`);
 
-    // QR code modules
+    // Render eyes first with eyeStyle
+    const eyeElements = eyeRenderer.renderAllEyes(moduleSize, qrSize, margin);
+    elements.push(eyeElements);
+
+    // QR code modules (excluding eyes)
     const moduleElements: string[] = [];
 
     for (let row = 0; row < qrSize; row++) {
@@ -75,7 +79,10 @@ export class SVGRenderer {
         const x = margin + col * moduleSize;
         const y = margin + row * moduleSize;
 
-        // Don't skip eye patterns - render them as modules
+        // Skip eye patterns - they are rendered separately
+        if (EyeRenderer.isEyePosition(row, col, qrSize)) {
+          continue;
+        }
 
         // Skip if this is in the logo area
         if (
@@ -110,7 +117,7 @@ export class SVGRenderer {
       }
     }
 
-    // Add modules (including eyes)
+    // Add modules (excluding eyes)
     elements.push(...moduleElements);
 
     // Add logo
