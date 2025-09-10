@@ -2,7 +2,6 @@ import { QRCodeAdapter } from '../encoder/adapter-qrcode-generator';
 import type { PrettyQROptions, QRCodeData, StyleOptions } from '../encoder/types';
 import { NeighborAnalyzer } from '../geometry/neighbors';
 import { EyeRenderer } from './eyes';
-import { GradientRenderer } from './gradient';
 import { LogoRenderer } from './logo';
 import { ShapeRenderer } from './shapes';
 
@@ -56,16 +55,7 @@ export class SVGRenderer {
     const marginSize = margin * moduleSize;
     const elements: string[] = [];
 
-    // Add gradient definitions if needed
-    if (style.gradient) {
-      const gradientId = 'qr-gradient';
-      elements.push(
-        GradientRenderer.createGradient({
-          ...style.gradient,
-          id: gradientId,
-        }),
-      );
-    }
+    // Gradient support removed for MVP1
 
     // Add logo mask if logo is present
     if (this.options.logo) {
@@ -73,7 +63,7 @@ export class SVGRenderer {
     }
 
     // Background
-    const backgroundFill = style.gradient ? 'url(#qr-gradient)' : style.background || '#ffffff';
+    const backgroundFill = style.background || '#ffffff';
     elements.push(`<rect width="100%" height="100%" fill="${backgroundFill}"/>`);
 
     // QR code modules

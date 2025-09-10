@@ -25,11 +25,6 @@ export interface StyleOptions {
   eyeStyle?: 'square' | 'rounded' | 'circle' | 'diamond';
   cornerStyle?: 'square' | 'rounded' | 'circle' | 'diamond';
   patternStyle?: 'square' | 'rounded' | 'circle' | 'diamond' | 'dots';
-  gradient?: {
-    type: 'linear' | 'radial';
-    colors: string[];
-    direction?: number;
-  };
 }
 
 export interface PrettyQROptions {

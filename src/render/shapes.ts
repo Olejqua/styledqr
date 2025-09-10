@@ -78,46 +78,5 @@ export class ShapeRenderer {
     }
   }
 
-  /**
-   * Create a gradient definition
-   */
-  static createGradient(
-    id: string,
-    type: 'linear' | 'radial',
-    colors: string[],
-    direction: number = 0,
-  ): string {
-    if (type === 'linear') {
-      const x1 = Math.cos(((direction - 90) * Math.PI) / 180);
-      const y1 = Math.sin(((direction - 90) * Math.PI) / 180);
-      const x2 = -x1;
-      const y2 = -y1;
-
-      const stops = colors
-        .map(
-          (color, index) =>
-            `<stop offset="${(index / (colors.length - 1)) * 100}%" stop-color="${color}"/>`,
-        )
-        .join('');
-
-      return `<defs>
-        <linearGradient id="${id}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}">
-          ${stops}
-        </linearGradient>
-      </defs>`;
-    } else {
-      const stops = colors
-        .map(
-          (color, index) =>
-            `<stop offset="${(index / (colors.length - 1)) * 100}%" stop-color="${color}"/>`,
-        )
-        .join('');
-
-      return `<defs>
-        <radialGradient id="${id}" cx="50%" cy="50%" r="50%">
-          ${stops}
-        </radialGradient>
-      </defs>`;
-    }
-  }
+  // Gradient support removed for MVP1
 }

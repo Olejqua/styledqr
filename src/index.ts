@@ -16,8 +16,7 @@ export type {
 export { NeighborAnalyzer } from './geometry/neighbors';
 export type { EyePattern } from './render/eyes';
 export { EyeRenderer } from './render/eyes';
-export type { GradientOptions } from './render/gradient';
-export { GradientRenderer } from './render/gradient';
+// Gradient support removed for MVP1
 export { LogoRenderer } from './render/logo';
 export type { ShapeOptions } from './render/shapes';
 export { ShapeRenderer } from './render/shapes';

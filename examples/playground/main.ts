@@ -8,7 +8,7 @@ const backgroundInput = document.getElementById('background') as HTMLInputElemen
 const foregroundInput = document.getElementById('foreground') as HTMLInputElement;
 const eyeStyleSelect = document.getElementById('eyeStyle') as HTMLSelectElement;
 const patternStyleSelect = document.getElementById('patternStyle') as HTMLSelectElement;
-const gradientInput = document.getElementById('gradient') as HTMLInputElement;
+// Gradient support removed for MVP1
 const logoInput = document.getElementById('logo') as HTMLInputElement;
 const logoSizeInput = document.getElementById('logoSize') as HTMLInputElement;
 const logoSizeValue = document.getElementById('logoSizeValue') as HTMLSpanElement;
@@ -25,15 +25,6 @@ const presets = {
     foreground: '#000000',
     eyeStyle: 'square',
     patternStyle: 'square',
-    gradient: '',
-    logo: '',
-  },
-  gradient: {
-    background: '#ffffff',
-    foreground: '#000000',
-    eyeStyle: 'rounded',
-    patternStyle: 'rounded',
-    gradient: 'linear-gradient(45deg, #667eea, #764ba2)',
     logo: '',
   },
   rounded: {
@@ -41,7 +32,6 @@ const presets = {
     foreground: '#000000',
     eyeStyle: 'rounded',
     patternStyle: 'rounded',
-    gradient: '',
     logo: '',
   },
   dots: {
@@ -49,7 +39,6 @@ const presets = {
     foreground: '#000000',
     eyeStyle: 'circle',
     patternStyle: 'dots',
-    gradient: '',
     logo: '',
   },
   diamond: {
@@ -57,7 +46,6 @@ const presets = {
     foreground: '#000000',
     eyeStyle: 'diamond',
     patternStyle: 'diamond',
-    gradient: '',
     logo: '',
   },
 };
@@ -75,7 +63,7 @@ function init() {
   foregroundInput.addEventListener('input', generateQR);
   eyeStyleSelect.addEventListener('change', generateQR);
   patternStyleSelect.addEventListener('change', generateQR);
-  gradientInput.addEventListener('input', generateQR);
+  // Gradient support removed for MVP1
   logoInput.addEventListener('input', generateQR);
   logoSizeInput.addEventListener('input', updateLogoSize);
 
@@ -140,13 +128,7 @@ function generateQR() {
           | 'circle'
           | 'diamond'
           | 'dots',
-        gradient: gradientInput.value
-          ? {
-              type: 'linear' as const,
-              colors: parseGradientColors(gradientInput.value),
-              direction: 45,
-            }
-          : undefined,
+        // Gradient support removed for MVP1
       },
       logo: logoInput.value
         ? {
@@ -168,15 +150,7 @@ function generateQR() {
   }
 }
 
-// Parse gradient colors from CSS string
-function parseGradientColors(gradientStr: string): string[] {
-  // Simple parser for linear-gradient colors
-  const match = gradientStr.match(/linear-gradient\([^,]+,\s*([^)]+)\)/);
-  if (match) {
-    return match[1].split(',').map((color) => color.trim());
-  }
-  return ['#667eea', '#764ba2'];
-}
+// Gradient support removed for MVP1
 
 // Download SVG
 async function downloadSVG() {
