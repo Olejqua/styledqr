@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrettyQR DI Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .qr-container {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .qr-item {
+            text-align: center;
+        }
+        .qr-item svg {
+            border: 1px solid #ccc;
+            margin: 10px 0;
+        }
+        .info {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>PrettyQR Dependency Injection Test</h1>
+    
+    <div class="test-section">
+        <h2>Basic QR Code Generation</h2>
+        <div class="qr-container" id="basic-qr">
+            <!-- Basic QR codes will be generated here -->
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Custom Service Injection Test</h2>
+        <div class="info" id="di-info">Loading...</div>
+        <div class="qr-container" id="custom-qr">
+            <!-- Custom QR codes will be generated here -->
+        </div>
+    </div>
+
+    <script type="module">
+        import { PrettyQR, container, SERVICE_KEYS, initializeDI } from './dist/index.js';
+
+        // Test basic functionality
+        function testBasicQR() {
+            const container = document.getElementById('basic-qr');
+            
+            const qr1 = new PrettyQR({
+                text: 'Hello DI!',
+                size: 200,
+                style: {
+                    background: '#ffffff',
+                    foreground: '#000000',
+                    patternStyle: 'square',
+                    eyeStyle: 'square'
+                }
+            });
+
+            const qr2 = new PrettyQR({
+                text: 'Rounded Pattern',
+                size: 200,
+                style: {
+                    background: '#f0f0f0',
+                    foreground: '#333333',
+                    patternStyle: 'rounded',
+                    eyeStyle: 'rounded'
+                }
+            });
+
+            container.innerHTML = `
+                <div class="qr-item">
+                    <h3>Square Pattern</h3>
+                    <div>${qr1.toSVG()}</div>
+                </div>
+                <div class="qr-item">
+                    <h3>Rounded Pattern</h3>
+                    <div>${qr2.toSVG()}</div>
+                </div>
+            `;
+        }
+
+        // Test custom service injection
+        function testCustomServices() {
+            const infoDiv = document.getElementById('di-info');
+            const container = document.getElementById('custom-qr');
+
+            try {
+                // Check if DI is initialized
+                const isInitialized = container.has(SERVICE_KEYS.QR_CODE_ADAPTER);
+                infoDiv.innerHTML = `DI Container initialized: ${isInitialized}<br>`;
+
+                // Test service registration
+                let customServiceRegistered = false;
+                try {
+                    container.register('customService', { test: 'value' });
+                    customServiceRegistered = true;
+                    infoDiv.innerHTML += `Custom service registration: Success<br>`;
+                } catch (e) {
+                    infoDiv.innerHTML += `Custom service registration: Failed - ${e.message}<br>`;
+                }
+
+                // Test service retrieval
+                try {
+                    const customService = container.get('customService');
+                    infoDiv.innerHTML += `Custom service retrieval: Success - ${JSON.stringify(customService)}<br>`;
+                } catch (e) {
+                    infoDiv.innerHTML += `Custom service retrieval: Failed - ${e.message}<br>`;
+                }
+
+                // Test QR generation with DI
+                const qr = new PrettyQR({
+                    text: 'DI Test QR Code',
+                    size: 200,
+                    style: {
+                        background: '#e8f4f8',
+                        foreground: '#2c3e50',
+                        patternStyle: 'circle',
+                        eyeStyle: 'full-rounded'
+                    }
+                });
+
+                container.innerHTML = `
+                    <div class="qr-item">
+                        <h3>DI Test QR</h3>
+                        <div>${qr.toSVG()}</div>
+                        <div class="info">
+                            Generated using DI container<br>
+                            Services: QR Adapter, Background Renderer, Module Renderer, etc.
+                        </div>
+                    </div>
+                `;
+
+            } catch (error) {
+                infoDiv.innerHTML += `Error: ${error.message}<br>`;
+                console.error('DI Test Error:', error);
+            }
+        }
+
+        // Run tests
+        testBasicQR();
+        testCustomServices();
+    </script>
+</body>
+</html>

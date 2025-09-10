@@ -1,18 +1,22 @@
-import { QRCodeAdapter } from '../encoder/adapter-qrcode-generator';
 import type { PrettyQROptions, QRCodeData, StyleOptions } from '../encoder/types';
 import { QR_CONFIG } from '../config/qr-config';
-import { BackgroundRenderer } from './background-renderer';
-import { EyeRenderer } from './eyes';
-import { LogoRenderer } from './logo';
-import { ModuleRenderer } from './module-renderer';
-import { SVGStringBuilder } from './svg-builder';
+import { container, SERVICE_KEYS } from '../di/container';
+import { ServiceFactories } from '../di/factories';
+import type {
+  IQRCodeAdapter,
+  IBackgroundRenderer,
+  IEyeRenderer,
+  IModuleRenderer,
+  ILogoRenderer,
+  IStringBuilder,
+} from '../di/interfaces';
 
 export class SVGRenderer {
-  private qrAdapter: QRCodeAdapter;
+  private qrAdapter: IQRCodeAdapter;
   private options: PrettyQROptions;
 
-  constructor(options: PrettyQROptions) {
-    this.qrAdapter = new QRCodeAdapter();
+  constructor(options: PrettyQROptions, qrAdapter?: IQRCodeAdapter) {
+    this.qrAdapter = qrAdapter || container.get<IQRCodeAdapter>(SERVICE_KEYS.QR_CODE_ADAPTER);
     this.options = options;
   }
 
@@ -51,23 +55,30 @@ export class SVGRenderer {
     style: StyleOptions,
   ): string {
     const { size: qrSize } = qrData;
-    const eyeRenderer = new EyeRenderer(moduleSize, style);
-    const builder = new SVGStringBuilder();
+    
+    // Get services from DI container
+    const backgroundRenderer = container.get<IBackgroundRenderer>(SERVICE_KEYS.BACKGROUND_RENDERER);
+    const moduleRenderer = container.get<IModuleRenderer>(SERVICE_KEYS.MODULE_RENDERER);
+    const logoRenderer = container.get<ILogoRenderer>(SERVICE_KEYS.LOGO_RENDERER);
+    const builder = ServiceFactories.createStringBuilder();
+    
+    // Create eye renderer with parameters
+    const eyeRenderer = ServiceFactories.createEyeRenderer(moduleSize, style);
 
     // Add logo mask if logo is present
     if (this.options.logo) {
-      builder.append(LogoRenderer.createLogoMask(this.options.logo, qrSize, moduleSize));
+      builder.append(logoRenderer.createLogoMask(this.options.logo, qrSize, moduleSize));
     }
 
     // Background
-    builder.append(BackgroundRenderer.render(style));
+    builder.append(backgroundRenderer.render(style));
 
     // Render eyes first with eyeStyle
     const eyeElements = eyeRenderer.renderAllEyes(moduleSize, qrSize, margin);
     builder.append(eyeElements);
 
     // QR code modules (excluding eyes) - now using optimized renderer
-    const moduleElements = ModuleRenderer.renderModules({
+    const moduleElements = moduleRenderer.renderModules({
       qrData,
       moduleSize,
       margin,
@@ -78,7 +89,7 @@ export class SVGRenderer {
 
     // Add logo
     if (this.options.logo) {
-      builder.append(LogoRenderer.renderLogo(this.options.logo, qrSize, moduleSize));
+      builder.append(logoRenderer.renderLogo(this.options.logo, qrSize, moduleSize));
     }
 
     return builder.build();

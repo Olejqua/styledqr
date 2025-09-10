@@ -48,7 +48,7 @@ PrettyQR is a TypeScript library for generating beautiful, customizable QR codes
 - [x] **Optimize Main Rendering Loop** - O(n²) complexity causing performance issues ✅ COMPLETED
 - [x] **Remove Magic Numbers** - Replace hardcoded values with configuration ✅ COMPLETED
 - [x] **Implement String Builder Pattern** - Fix memory inefficiency in SVG generation ✅ COMPLETED
-- [ ] **Add Dependency Injection** - Reduce tight coupling between components
+- [x] **Add Dependency Injection** - Reduce tight coupling between components ✅ COMPLETED
 
 ### Medium Priority (Next Sprint)
 - [ ] **Implement Factory Pattern** - For better object creation
@@ -76,6 +76,32 @@ PrettyQR is a TypeScript library for generating beautiful, customizable QR codes
 - **Single string building**: One SVGStringBuilder instead of array.join()
 - **Pre-computation**: Eye and logo areas calculated once upfront
 - **Simplified architecture**: No complex adaptive systems, just optimized core algorithm
+
+## 🔧 **Dependency Injection System Implemented**
+
+### DI Container
+- **Simple container**: Lightweight DI container with service registration and retrieval
+- **Service interfaces**: Clear interfaces for all major components (IQRCodeAdapter, IBackgroundRenderer, etc.)
+- **Factory pattern**: Service factories for components that need parameters
+- **Lazy instantiation**: Services created only when needed
+
+### Benefits
+- **Reduced coupling**: Components depend on interfaces, not concrete implementations
+- **Testability**: Easy to mock services for unit testing
+- **Extensibility**: Easy to swap implementations or add new services
+- **Maintainability**: Clear separation of concerns and dependencies
+
+### Usage
+```typescript
+// Automatic DI initialization
+const qr = new PrettyQR(options);
+
+// Manual service registration
+container.register('customService', customImplementation);
+
+// Service retrieval
+const service = container.get<IService>('serviceKey');
+```
 
 ## 📋 Planned Features
 
