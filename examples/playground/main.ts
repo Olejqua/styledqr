@@ -29,16 +29,9 @@ const presets = {
   },
   rounded: {
     background: '#ffffff',
-    foreground: '#000000',
-    eyeStyle: 'rounded',
+    foreground: '#2563eb',
+    eyeStyle: 'square',
     patternStyle: 'rounded',
-    logo: '',
-  },
-  dots: {
-    background: '#ffffff',
-    foreground: '#000000',
-    eyeStyle: 'circle',
-    patternStyle: 'dots',
     logo: '',
   },
   diamond: {
@@ -99,7 +92,6 @@ function applyPreset(presetName: string) {
   foregroundInput.value = preset.foreground;
   eyeStyleSelect.value = preset.eyeStyle;
   patternStyleSelect.value = preset.patternStyle;
-  gradientInput.value = preset.gradient;
   logoInput.value = preset.logo;
 
   // Update active preset button
@@ -126,8 +118,7 @@ function generateQR() {
           | 'square'
           | 'rounded'
           | 'circle'
-          | 'diamond'
-          | 'dots',
+          | 'diamond',
         // Gradient support removed for MVP1
       },
       logo: logoInput.value

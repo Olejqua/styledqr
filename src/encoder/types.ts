@@ -24,7 +24,7 @@ export interface StyleOptions {
   foreground?: string;
   eyeStyle?: 'square' | 'rounded' | 'circle' | 'diamond';
   cornerStyle?: 'square' | 'rounded' | 'circle' | 'diamond';
-  patternStyle?: 'square' | 'rounded' | 'circle' | 'diamond' | 'dots';
+  patternStyle?: 'square' | 'rounded' | 'circle' | 'diamond';
 }
 
 export interface PrettyQROptions {

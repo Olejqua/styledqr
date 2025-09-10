@@ -86,13 +86,23 @@ export class SVGRenderer {
         }
 
         if (isDark) {
-          const shapeStyle = style.patternStyle || 'square';
+          const shapeStyle = (style.patternStyle || 'square') as 'square' | 'rounded' | 'circle' | 'diamond';
+          
+          // Create getNeighbor function for smart patterns
+          const getNeighbor = (xOffset: number, yOffset: number): boolean => {
+            const newRow = row + yOffset;
+            const newCol = col + xOffset;
+            if (newRow < 0 || newRow >= qrSize || newCol < 0 || newCol >= qrSize) return false;
+            return qrData.modules[newRow][newCol];
+          };
+
+          // Use shape renderer with getNeighbor function for smart patterns
           const shape = ShapeRenderer.render({
             size: moduleSize,
             style: shapeStyle,
-            cornerRadius: shapeStyle === 'rounded' ? moduleSize * 0.2 : 0,
+            getNeighbor: shapeStyle === 'rounded' ? getNeighbor : undefined,
           });
-
+          
           moduleElements.push(`<g transform="translate(${x}, ${y})" fill="${style.foreground || '#000000'}">
             ${shape}
           </g>`);
@@ -117,6 +127,31 @@ export class SVGRenderer {
   private isTimingPattern(row: number, col: number, qrSize: number): boolean {
     // Timing patterns are on row 6 and column 6
     return row === 6 || col === 6;
+  }
+
+
+
+  /**
+   * Check if a module is on the edge of the QR code and should be rounded
+   * Based on the correct algorithm for QR code edge detection
+   */
+  private isEdgeModule(row: number, col: number, qrSize: number): boolean {
+    // Check if module is on the outer edge
+    const isOuterEdge = row === 0 || row === qrSize - 1 || col === 0 || col === qrSize - 1;
+    
+    if (!isOuterEdge) return false;
+    
+    // Exclude finder patterns (7x7 modules in corners)
+    // Top-left finder pattern (0,0) to (6,6)
+    if (row < 7 && col < 7) return false;
+    
+    // Top-right finder pattern (0, qrSize-7) to (6, qrSize-1)
+    if (row < 7 && col >= qrSize - 7) return false;
+    
+    // Bottom-left finder pattern (qrSize-7, 0) to (qrSize-1, 6)
+    if (row >= qrSize - 7 && col < 7) return false;
+    
+    return true;
   }
 
   /**
