@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrettyQR Playground</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 600px;
+        }
+
+        .controls {
+            padding: 30px;
+            background: #f8f9fa;
+            border-right: 1px solid #e9ecef;
+        }
+
+        .preview {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .color-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .qr-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .qr-code {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .presets {
+            margin-bottom: 20px;
+        }
+
+        .preset-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 16px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .preset-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .preset-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                border-right: none;
+                border-bottom: 1px solid #e9ecef;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 PrettyQR Playground</h1>
+            <p>Create beautiful, customizable QR codes with logos and patterns</p>
+        </div>
+        
+        <div class="content">
+            <div class="controls">
+                <div class="presets">
+                    <h3>Quick Presets</h3>
+                    <button class="preset-btn active" data-preset="default">Default</button>
+                    <button class="preset-btn" data-preset="gradient">Gradient</button>
+                    <button class="preset-btn" data-preset="rounded">Rounded</button>
+                    <button class="preset-btn" data-preset="dots">Dots</button>
+                    <button class="preset-btn" data-preset="diamond">Diamond</button>
+                </div>
+
+                <div class="form-group">
+                    <label for="text">QR Code Text</label>
+                    <textarea id="text" placeholder="Enter text or URL...">https://github.com/your-username/prettyqr</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="size">Size (pixels)</label>
+                    <input type="number" id="size" value="256" min="128" max="512">
+                </div>
+
+                <div class="form-group">
+                    <label for="errorLevel">Error Correction Level</label>
+                    <select id="errorLevel">
+                        <option value="L">L (Low - 7%)</option>
+                        <option value="M" selected>M (Medium - 15%)</option>
+                        <option value="Q">Q (Quartile - 25%)</option>
+                        <option value="H">H (High - 30%)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Colors</label>
+                    <div class="color-inputs">
+                        <div>
+                            <label for="background">Background</label>
+                            <input type="color" id="background" value="#ffffff">
+                        </div>
+                        <div>
+                            <label for="foreground">Foreground</label>
+                            <input type="color" id="foreground" value="#000000">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="eyeStyle">Eye Style</label>
+                    <select id="eyeStyle">
+                        <option value="square">Square</option>
+                        <option value="rounded" selected>Rounded</option>
+                        <option value="circle">Circle</option>
+                        <option value="diamond">Diamond</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="patternStyle">Pattern Style</label>
+                    <select id="patternStyle">
+                        <option value="square" selected>Square</option>
+                        <option value="rounded">Rounded</option>
+                        <option value="circle">Circle</option>
+                        <option value="diamond">Diamond</option>
+                        <option value="dots">Dots</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="gradient">Gradient (optional)</label>
+                    <input type="text" id="gradient" placeholder="linear-gradient(45deg, #667eea, #764ba2)">
+                </div>
+
+                <div class="form-group">
+                    <label for="logo">Logo URL (optional)</label>
+                    <input type="text" id="logo" placeholder="https://example.com/logo.png">
+                </div>
+
+                <div class="form-group">
+                    <label for="logoSize">Logo Size (%)</label>
+                    <input type="range" id="logoSize" min="10" max="30" value="20">
+                    <span id="logoSizeValue">20%</span>
+                </div>
+            </div>
+
+            <div class="preview">
+                <div class="qr-container">
+                    <div id="qrCode" class="qr-code"></div>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn btn-primary" id="downloadSvg">Download SVG</button>
+                    <button class="btn btn-secondary" id="downloadPng">Download PNG</button>
+                    <button class="btn btn-secondary" id="copySvg">Copy SVG</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./main.ts"></script>
+</body>
+</html>
