@@ -19,7 +19,7 @@ export class EyeRenderer {
    */
   renderEye(_x: number, _y: number, moduleSize: number): EyePattern {
     const eyeStyle = this.style.eyeStyle || 'square';
-    const cornerRadius = moduleSize * 0.2;
+    const cornerRadius = moduleSize * 0.6;
 
     // Outer square (7x7 modules)
     const outerSize = moduleSize * 7;
