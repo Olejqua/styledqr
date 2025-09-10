@@ -21,7 +21,7 @@ export class EyeRenderer {
     const eyeStyle = this.style.eyeStyle || 'square';
     const cornerRadius = moduleSize * 0.2;
 
-    // Outer square (7x7 modules)
+    // Outer square (7x7 modules) - but render as single squares
     const outerSize = moduleSize * 7;
     const outer = ShapeRenderer.render({
       size: outerSize,
@@ -51,38 +51,35 @@ export class EyeRenderer {
   /**
    * Render all three eyes of a QR code
    */
-  renderAllEyes(moduleSize: number, qrSize: number): string {
+  renderAllEyes(moduleSize: number, qrSize: number, margin: number): string {
     const eyes = [];
-    const eyeSize = moduleSize * 7;
-    const margin = moduleSize * 4;
 
     // Top-left eye
     const topLeft = this.renderEye(0, 0, moduleSize);
-    eyes.push(this.wrapEye(topLeft, margin, margin, eyeSize));
+    eyes.push(this.wrapEye(topLeft, margin, margin, moduleSize));
 
     // Top-right eye
     const topRight = this.renderEye(qrSize - 7, 0, moduleSize);
-    eyes.push(this.wrapEye(topRight, qrSize - margin - eyeSize, margin, eyeSize));
+    eyes.push(this.wrapEye(topRight, (qrSize - 7) * moduleSize + margin, margin, moduleSize));
 
     // Bottom-left eye
     const bottomLeft = this.renderEye(0, qrSize - 7, moduleSize);
-    eyes.push(this.wrapEye(bottomLeft, margin, qrSize - margin - eyeSize, eyeSize));
+    eyes.push(this.wrapEye(bottomLeft, margin, (qrSize - 7) * moduleSize + margin, moduleSize));
 
     return eyes.join('');
   }
 
-  private wrapEye(eye: EyePattern, x: number, y: number, size: number): string {
+  private wrapEye(eye: EyePattern, x: number, y: number, moduleSize: number): string {
     const { outer, inner, center } = eye;
-    const offset = (size - 7) / 2; // Center the 7x7 pattern
 
-    return `<g transform="translate(${x + offset}, ${y + offset})">
-      <g fill="${this.style.background || '#000000'}">
+    return `<g transform="translate(${x}, ${y})">
+      <g fill="${this.style.foreground || '#000000'}">
         ${outer}
       </g>
-      <g fill="${this.style.foreground || '#ffffff'}">
+      <g transform="translate(${moduleSize}, ${moduleSize})" fill="${this.style.background || '#ffffff'}">
         ${inner}
       </g>
-      <g fill="${this.style.background || '#000000'}">
+      <g transform="translate(${moduleSize * 2}, ${moduleSize * 2})" fill="${this.style.foreground || '#000000'}">
         ${center}
       </g>
     </g>`;

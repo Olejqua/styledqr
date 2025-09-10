@@ -29,9 +29,11 @@ export class SVGRenderer {
     });
 
     const qrSize = qrData.size;
-    const moduleSize = Math.floor(size / (qrSize + margin * 2));
+    // Calculate module size to fit the requested size
+    const availableSize = size - margin * 2;
+    const moduleSize = Math.max(1, Math.floor(availableSize / qrSize));
     const actualSize = qrSize * moduleSize;
-    const totalSize = actualSize + margin * moduleSize * 2;
+    const totalSize = actualSize + margin * 2;
 
     // Create SVG content
     const svgContent = this.renderQRCode(qrData, moduleSize, margin, style);
@@ -80,13 +82,10 @@ export class SVGRenderer {
     for (let row = 0; row < qrSize; row++) {
       for (let col = 0; col < qrSize; col++) {
         const isDark = modules[row][col];
-        const x = marginSize + col * moduleSize;
-        const y = marginSize + row * moduleSize;
+        const x = margin + col * moduleSize;
+        const y = margin + row * moduleSize;
 
-        // Skip if this is part of an eye pattern
-        if (EyeRenderer.isEyePosition(row, col, qrSize)) {
-          continue;
-        }
+        // Don't skip eye patterns - render them as modules
 
         // Skip if this is in the logo area
         if (
@@ -111,10 +110,7 @@ export class SVGRenderer {
       }
     }
 
-    // Add eyes
-    elements.push(eyeRenderer.renderAllEyes(moduleSize, qrSize));
-
-    // Add modules
+    // Add modules (including eyes)
     elements.push(...moduleElements);
 
     // Add logo
@@ -123,6 +119,14 @@ export class SVGRenderer {
     }
 
     return elements.join('');
+  }
+
+  /**
+   * Check if a position is part of a timing pattern
+   */
+  private isTimingPattern(row: number, col: number, qrSize: number): boolean {
+    // Timing patterns are on row 6 and column 6
+    return row === 6 || col === 6;
   }
 
   /**

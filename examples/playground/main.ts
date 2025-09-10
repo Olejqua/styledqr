@@ -1,4 +1,4 @@
-import PrettyQR from '../../src/index.ts';
+import PrettyQR from '../../dist/index.js';
 
 // DOM elements
 const textInput = document.getElementById('text') as HTMLTextAreaElement;
