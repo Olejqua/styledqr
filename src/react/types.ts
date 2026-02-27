@@ -1,6 +1,6 @@
 import type { PrettyQROptions } from '../encoder/types';
 
-export type PrettyQRPreset = 'default' | 'telegram' | 'mono';
+export type PrettyQRPreset = 'default' | 'rounded' | 'diamond' | 'circle';
 export type PrettyQROptionsOverride = Omit<PrettyQROptions, 'text'>;
 
 export interface PrettyQRProps {

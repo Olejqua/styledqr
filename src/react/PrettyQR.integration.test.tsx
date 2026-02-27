@@ -4,11 +4,11 @@ import { PrettyQR } from './PrettyQR';
 
 describe('PrettyQR integration', () => {
   it('applies props merge precedence end-to-end', () => {
-    const withShortOnly = render(<PrettyQR value='hello' preset='telegram' size={180} />);
+    const withShortOnly = render(<PrettyQR value='hello' preset='rounded' size={180} />);
     const withOptionsOverride = render(
       <PrettyQR
         value='hello'
-        preset='telegram'
+        preset='rounded'
         size={180}
         options={{
           size: 240,

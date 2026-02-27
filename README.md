@@ -1,6 +1,6 @@
 # PrettyQR
 
-Beautiful, stylable QR codes (SVG) with logo and patterns, Telegram-like aesthetics.
+Beautiful, stylable QR codes (SVG) with logo and patterns.
 
 ## Features
 
@@ -54,7 +54,7 @@ export function App() {
     <PrettyQR
       value='https://example.com'
       size={256}
-      preset='telegram'
+      preset='rounded'
       options={{
         style: {
           foreground: '#229ed9',
@@ -65,20 +65,6 @@ export function App() {
   );
 }
 ```
-
-## Preset Audit
-
-Generate the current expert preset audit report:
-
-```bash
-pnpm run audit:presets
-```
-
-This writes `docs/style-system/preset-audit.md` with:
-- weighted total score
-- risk level (`low` / `medium` / `high`)
-- visual tone (`conservative` / `balanced` / `expressive`)
-- recommendation label for each preset
 
 ## Development
 

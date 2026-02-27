@@ -2,15 +2,6 @@ import type { PrettyQROptions, QRPerformanceMetrics } from './encoder/types';
 import { renderPrettyQRSvg } from './render/render-prettyqr-svg';
 import { SVGRenderer } from './render/svg';
 
-export { CURRENT_PRESET_CRITERIA } from './audit/current-preset-audit';
-export { buildPresetAuditReport } from './audit/report';
-export { PRESET_AUDIT_WEIGHTS, scorePreset } from './audit/scoring';
-export type {
-  AuditCriterionId,
-  PresetAuditScore,
-  RiskLevel,
-  Tone,
-} from './audit/types';
 export { QR_CONFIG } from './config/qr-config';
 export { QRCodeAdapter } from './encoder/adapter-qrcode-generator';
 export type {

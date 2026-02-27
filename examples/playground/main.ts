@@ -1,4 +1,4 @@
-import PrettyQR from '../../dist/index.js';
+import PrettyQR from '../../src/index';
 
 // DOM elements
 const textInput = document.getElementById('text') as HTMLTextAreaElement;
@@ -8,7 +8,6 @@ const backgroundInput = document.getElementById('background') as HTMLInputElemen
 const foregroundInput = document.getElementById('foreground') as HTMLInputElement;
 const eyeStyleSelect = document.getElementById('eyeStyle') as HTMLSelectElement;
 const patternStyleSelect = document.getElementById('patternStyle') as HTMLSelectElement;
-// Gradient support removed for MVP1
 const logoInput = document.getElementById('logo') as HTMLInputElement;
 const logoSizeInput = document.getElementById('logoSize') as HTMLInputElement;
 const logoSizeValue = document.getElementById('logoSizeValue') as HTMLSpanElement;
@@ -34,21 +33,25 @@ const presets = {
     patternStyle: 'rounded',
     logo: '',
   },
-  'full-rounded': {
+  circle: {
     background: '#ffffff',
-    foreground: '#000000',
+    foreground: '#0b1324',
     eyeStyle: 'full-rounded',
-    patternStyle: 'square',
+    patternStyle: 'circle',
+    logo: '',
+  },
+  diamond: {
+    background: '#ffffff',
+    foreground: '#0f172a',
+    eyeStyle: 'square',
+    patternStyle: 'diamond',
     logo: '',
   },
 };
 
-// Current QR code instance
 let currentQR: PrettyQR | null = null;
 
-// Initialize
 function init() {
-  // Set up event listeners
   textInput.addEventListener('input', generateQR);
   sizeInput.addEventListener('input', generateQR);
   errorLevelSelect.addEventListener('change', generateQR);
@@ -56,7 +59,6 @@ function init() {
   foregroundInput.addEventListener('input', generateQR);
   eyeStyleSelect.addEventListener('change', generateQR);
   patternStyleSelect.addEventListener('change', generateQR);
-  // Gradient support removed for MVP1
   logoInput.addEventListener('input', generateQR);
   logoSizeInput.addEventListener('input', updateLogoSize);
 
@@ -64,7 +66,6 @@ function init() {
   downloadPngBtn.addEventListener('click', downloadPNG);
   copySvgBtn.addEventListener('click', copySVG);
 
-  // Preset buttons
   presetBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
       const preset = btn.dataset.preset;
@@ -72,29 +73,24 @@ function init() {
     });
   });
 
-  // Initial generation
   generateQR();
 }
 
-// Update logo size display
 function updateLogoSize() {
   logoSizeValue.textContent = `${logoSizeInput.value}%`;
   generateQR();
 }
 
-// Apply preset
 function applyPreset(presetName: string) {
   const preset = presets[presetName as keyof typeof presets];
   if (!preset) return;
 
-  // Update UI
   backgroundInput.value = preset.background;
   foregroundInput.value = preset.foreground;
   eyeStyleSelect.value = preset.eyeStyle;
   patternStyleSelect.value = preset.patternStyle;
   logoInput.value = preset.logo;
 
-  // Update active preset button
   presetBtns.forEach((btn) => {
     btn.classList.remove('active');
   });
@@ -103,7 +99,6 @@ function applyPreset(presetName: string) {
   generateQR();
 }
 
-// Generate QR code
 function generateQR() {
   try {
     const options = {
@@ -115,7 +110,6 @@ function generateQR() {
         foreground: foregroundInput.value,
         eyeStyle: eyeStyleSelect.value as 'square' | 'rounded' | 'full-rounded',
         patternStyle: patternStyleSelect.value as 'square' | 'rounded' | 'circle' | 'diamond',
-        // Gradient support removed for MVP1
       },
       logo: logoInput.value
         ? {
@@ -128,8 +122,7 @@ function generateQR() {
     };
 
     currentQR = new PrettyQR(options);
-    const svg = currentQR.toSVG();
-    qrCodeDiv.innerHTML = svg;
+    qrCodeDiv.innerHTML = currentQR.toSVG();
   } catch (error) {
     qrCodeDiv.innerHTML = `<div style="color: red; text-align: center; padding: 20px;">
       Error generating QR code: ${error instanceof Error ? error.message : 'Unknown error'}
@@ -137,23 +130,17 @@ function generateQR() {
   }
 }
 
-// Gradient support removed for MVP1
-
-// Download SVG
 async function downloadSVG() {
   if (!currentQR) return;
-
   try {
     await currentQR.download('pretty-qr.svg');
   } catch (_error) {}
 }
 
-// Download PNG
 async function downloadPNG() {
   if (!currentQR) return;
 
   try {
-    const _svg = currentQR.toSVG();
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -184,7 +171,6 @@ async function downloadPNG() {
   } catch (_error) {}
 }
 
-// Copy SVG to clipboard
 async function copySVG() {
   if (!currentQR) return;
 
@@ -192,7 +178,6 @@ async function copySVG() {
     const svg = currentQR.toSVG();
     await navigator.clipboard.writeText(svg);
 
-    // Show feedback
     const originalText = copySvgBtn.textContent;
     copySvgBtn.textContent = 'Copied!';
     copySvgBtn.style.background = '#28a745';
@@ -204,5 +189,4 @@ async function copySVG() {
   } catch (_error) {}
 }
 
-// Initialize the app
 init();

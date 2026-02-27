@@ -5,7 +5,7 @@ describe('resolvePrettyQROptions', () => {
   it('applies precedence preset < short props < options', () => {
     const resolved = resolvePrettyQROptions({
       value: 'hello',
-      preset: 'telegram',
+      preset: 'rounded',
       size: 180,
       options: {
         size: 240,

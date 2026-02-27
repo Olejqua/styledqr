@@ -13,7 +13,7 @@ export const PRETTY_QR_PRESETS: Record<PrettyQRPreset, PrettyQROptionsOverride> 
       patternStyle: 'square',
     },
   },
-  telegram: {
+  rounded: {
     margin: 4,
     size: 256,
     errorCorrectionLevel: 'M',
@@ -25,16 +25,28 @@ export const PRETTY_QR_PRESETS: Record<PrettyQRPreset, PrettyQROptionsOverride> 
       patternStyle: 'rounded',
     },
   },
-  mono: {
+  circle: {
     margin: 4,
     size: 256,
     errorCorrectionLevel: 'M',
     style: {
       background: '#ffffff',
-      foreground: '#111111',
+      foreground: '#0b1324',
+      eyeStyle: 'full-rounded',
+      cornerStyle: 'circle',
+      patternStyle: 'circle',
+    },
+  },
+  diamond: {
+    margin: 4,
+    size: 256,
+    errorCorrectionLevel: 'M',
+    style: {
+      background: '#ffffff',
+      foreground: '#0f172a',
       eyeStyle: 'square',
-      cornerStyle: 'square',
-      patternStyle: 'square',
+      cornerStyle: 'diamond',
+      patternStyle: 'diamond',
     },
   },
 };
