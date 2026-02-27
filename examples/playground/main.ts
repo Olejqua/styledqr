@@ -2,6 +2,7 @@ import PrettyQR from '../../src/index';
 
 // DOM elements
 const textInput = document.getElementById('text') as HTMLTextAreaElement;
+const recipePresetSelect = document.getElementById('recipePreset') as HTMLSelectElement;
 const sizeInput = document.getElementById('size') as HTMLInputElement;
 const errorLevelSelect = document.getElementById('errorLevel') as HTMLSelectElement;
 const backgroundInput = document.getElementById('background') as HTMLInputElement;
@@ -51,8 +52,44 @@ const presets = {
 
 let currentQR: PrettyQR | null = null;
 
+const recipeScenarios: Record<
+  string,
+  {
+    text: string;
+    foreground: string;
+    patternStyle: 'square' | 'rounded' | 'circle' | 'diamond';
+    eyeStyle: 'square' | 'rounded' | 'full-rounded';
+  }
+> = {
+  none: {
+    text: '',
+    foreground: '',
+    patternStyle: 'square',
+    eyeStyle: 'square',
+  },
+  card: {
+    text: 'solana:merchant-wallet?amount=12.50',
+    foreground: '#229ed9',
+    patternStyle: 'rounded',
+    eyeStyle: 'rounded',
+  },
+  dialog: {
+    text: 'https://example.com/pay/checkout-id',
+    foreground: '#0b1324',
+    patternStyle: 'rounded',
+    eyeStyle: 'rounded',
+  },
+  tabs: {
+    text: 'solana:merchant-wallet',
+    foreground: '#0f172a',
+    patternStyle: 'square',
+    eyeStyle: 'square',
+  },
+};
+
 function init() {
   textInput.addEventListener('input', generateQR);
+  recipePresetSelect.addEventListener('change', applyRecipeScenario);
   sizeInput.addEventListener('input', generateQR);
   errorLevelSelect.addEventListener('change', generateQR);
   backgroundInput.addEventListener('input', generateQR);
@@ -73,6 +110,21 @@ function init() {
     });
   });
 
+  generateQR();
+}
+
+function applyRecipeScenario() {
+  const selected = recipePresetSelect.value;
+  const scenario = recipeScenarios[selected];
+  if (!scenario || selected === 'none') {
+    generateQR();
+    return;
+  }
+
+  textInput.value = scenario.text;
+  foregroundInput.value = scenario.foreground;
+  patternStyleSelect.value = scenario.patternStyle;
+  eyeStyleSelect.value = scenario.eyeStyle;
   generateQR();
 }
 

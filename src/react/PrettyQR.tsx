@@ -41,6 +41,7 @@ export function PrettyQR(props: PrettyQRProps) {
 
     return (
       <div
+        data-testid='prettyqr-wrapper'
         data-prettyqr='true'
         className={props.className}
         style={props.style as CSSProperties | undefined}
@@ -55,6 +56,7 @@ export function PrettyQR(props: PrettyQRProps) {
 
     return (
       <div
+        data-testid='prettyqr-wrapper'
         data-prettyqr='true'
         className={props.className}
         style={props.style as CSSProperties | undefined}

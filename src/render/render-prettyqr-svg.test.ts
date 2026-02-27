@@ -29,4 +29,19 @@ describe('renderPrettyQRSvg', () => {
 
     expect(a).not.toBe(b);
   });
+
+  it('renders rounded payment recipe style as contour path output', () => {
+    const output = renderPrettyQRSvg({
+      text: 'solana:pay-demo',
+      style: {
+        foreground: '#229ed9',
+        background: '#ffffff',
+        patternStyle: 'rounded',
+        eyeStyle: 'rounded',
+      },
+    });
+
+    expect(output).toContain('<path');
+    expect(output).toContain('fill-rule="evenodd"');
+  });
 });

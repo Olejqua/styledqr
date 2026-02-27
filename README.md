@@ -67,6 +67,27 @@ export function App() {
 }
 ```
 
+## Tailwind Usage
+
+PrettyQR is a rendering primitive. Bring your own shadcn/ui components (Card, Dialog, Tabs, etc.) around it.
+
+```tsx
+import { PrettyQR } from 'prettyqr/react';
+
+export function PaymentQr() {
+  return (
+    <PrettyQR
+      value='solana:pay-demo'
+      preset='rounded'
+      className='w-full [&>svg]:w-full [&>svg]:h-auto'
+      aria-label='Payment QR'
+    />
+  );
+}
+```
+
+More copy-paste composition examples: `docs/style-system/shadcn-recipes.md`.
+
 ## Development
 
 ```bash

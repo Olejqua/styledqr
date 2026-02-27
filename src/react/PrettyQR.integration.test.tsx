@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { PrettyQR } from './PrettyQR';
 
@@ -30,5 +30,12 @@ describe('PrettyQR integration', () => {
     );
     expect(withOptionsOverride.container.querySelector('svg')?.outerHTML).toContain('#ff0000');
     expect(overrideSvgWidth).toBeGreaterThan(shortSvgWidth);
+  });
+
+  it('exposes aria-label on rendered svg', () => {
+    render(<PrettyQR value='https://example.com' aria-label='Payment QR' />);
+    const svg = screen.getByLabelText('Payment QR');
+
+    expect(svg.tagName.toLowerCase()).toBe('svg');
   });
 });

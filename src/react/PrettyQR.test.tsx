@@ -18,6 +18,17 @@ describe('PrettyQR', () => {
     expect(wrapper.style.padding).toBe('8px');
   });
 
+  it('keeps tailwind utility classes on wrapper for svg targeting', () => {
+    const { container } = render(
+      <PrettyQR value='hello' className='w-full [&>svg]:h-auto [&>svg]:w-full' />,
+    );
+    const wrapper = container.querySelector('[data-testid="prettyqr-wrapper"]') as HTMLElement;
+
+    expect(wrapper.className).toContain('w-full');
+    expect(wrapper.className).toContain('[&>svg]:h-auto');
+    expect(wrapper.className).toContain('[&>svg]:w-full');
+  });
+
   it('renders role and aria-label attributes', () => {
     const { container } = render(<PrettyQR value='hello' aria-label='QR code' />);
     const svg = container.querySelector('svg');
