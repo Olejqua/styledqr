@@ -26,6 +26,7 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "play": "pnpm -C examples/playground dev",
+    "audit:presets": "pnpm run build && node --input-type=module -e \"import { mkdirSync, writeFileSync } from 'node:fs'; import { buildPresetAuditReport } from './dist/index.js'; mkdirSync('docs/style-system', { recursive: true }); writeFileSync('docs/style-system/preset-audit.md', buildPresetAuditReport(), 'utf8'); console.log('Preset audit report written to docs/style-system/preset-audit.md');\"",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "biome lint .",
