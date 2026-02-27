@@ -14,4 +14,18 @@ describe('scorePreset', () => {
 
     expect(result.total).toBeCloseTo(4.15, 2);
   });
+
+  it('maps low scan confidence to high risk even with medium total', () => {
+    const result = scorePreset('experimental', {
+      brandFit: 5,
+      scanConfidence: 2,
+      visualDistinctiveness: 5,
+      compositionalBalance: 5,
+      deploymentFlexibility: 3,
+      enterpriseSafety: 3,
+    });
+
+    expect(result.risk).toBe('high');
+    expect(result.tone).toBe('expressive');
+  });
 });

@@ -19,16 +19,19 @@ function round(value: number): number {
   return Math.round(value * 100) / 100;
 }
 
-function toRisk(total: number): RiskLevel {
-  if (total >= 4) {
-    return 'low';
+function toRisk(scanConfidence: number, total: number): RiskLevel {
+  if (scanConfidence <= 2 || total < 3) {
+    return 'high';
   }
 
-  if (total >= 3) {
+  if (scanConfidence === 3 || total < 4) {
     return 'medium';
   }
 
-  return 'high';
+  if (total >= 4) {
+    return 'low';
+  }
+  return 'medium';
 }
 
 function toTone(criteria: PresetCriteria): Tone {
@@ -73,7 +76,7 @@ export function scorePreset(preset: string, criteria: PresetCriteria): PresetAud
     preset,
     criteria,
     total,
-    risk: toRisk(total),
+    risk: toRisk(criteria.scanConfidence, total),
     tone: toTone(criteria),
     recommendation: toRecommendation(total),
   };
