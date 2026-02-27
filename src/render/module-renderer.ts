@@ -17,26 +17,6 @@ export interface ModuleRenderOptions {
 }
 
 export class ModuleRenderer {
-  private static isActiveModule(
-    row: number,
-    col: number,
-    qrSize: number,
-    modules: boolean[][],
-    eyePositions: Set<string>,
-    logoAreas: Set<string>,
-  ): boolean {
-    if (row < 0 || row >= qrSize || col < 0 || col >= qrSize) {
-      return false;
-    }
-
-    const key = `${row},${col}`;
-    if (eyePositions.has(key) || logoAreas.has(key)) {
-      return false;
-    }
-
-    return modules[row][col];
-  }
-
   private static renderRoundedBlobModules(
     qrData: QRCodeData,
     moduleSize: number,

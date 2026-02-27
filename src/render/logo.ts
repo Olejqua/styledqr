@@ -12,8 +12,7 @@ export class LogoRenderer {
         throw new Error(`Failed to load SVG: ${response.statusText}`);
       }
       return await response.text();
-    } catch (error) {
-      console.warn('Failed to load external SVG:', error);
+    } catch {
       return url; // Fallback to URL
     }
   }
@@ -24,8 +23,12 @@ export class LogoRenderer {
     // Validate logo options first
     const validation = LogoValidator.validate(logoOptions);
     if (!validation.isValid) {
-      console.error('Logo validation failed:', validation.error);
-      return LogoRenderer.renderPlaceholder(logoOptions, qrSize, moduleSize, validation.error!);
+      return LogoRenderer.renderPlaceholder(
+        logoOptions,
+        qrSize,
+        moduleSize,
+        validation.error || 'Logo validation failed',
+      );
     }
 
     const {
@@ -36,7 +39,6 @@ export class LogoRenderer {
       borderRadius = 0,
       backgroundColor = 'white',
       scaleStrategy = 'fit',
-      placeholder,
     } = logoOptions;
 
     // Calculate appropriate size
@@ -160,7 +162,7 @@ export class LogoRenderer {
             href="${src}"
             preserveAspectRatio="xMidYMid meet"/>`;
         }
-      } catch (error) {
+      } catch {
         // Fallback to image
         logoElement = `<image 
           x="${logoX}" 
@@ -216,8 +218,7 @@ export class LogoRenderer {
       }
 
       // Parse viewBox
-      const [x1, y1, vbWidth, vbHeight] = viewBox.split(' ').map(Number);
-      const aspectRatio = vbWidth / vbHeight;
+      const [, , vbWidth, vbHeight] = viewBox.split(' ').map(Number);
 
       // Calculate scaling to fit in the logo area
       const scale = size / Math.max(vbWidth, vbHeight);
@@ -231,7 +232,7 @@ export class LogoRenderer {
       return `<g transform="translate(${x + offsetX}, ${y + offsetY}) scale(${scale})">
         ${content}
       </g>`;
-    } catch (error) {
+    } catch {
       // Fallback to image if SVG parsing fails
       return `<image x="${x}" y="${y}" width="${size}" height="${size}" href="data:image/svg+xml;base64,${btoa(svgString)}" preserveAspectRatio="xMidYMid meet"/>`;
     }
@@ -371,19 +372,5 @@ export class LogoRenderer {
       </text>
       <title>${errorMessage}</title>
     </g>`;
-  }
-
-  /**
-   * Get logo dimensions for external images
-   */
-  private static async getImageDimensions(
-    src: string,
-  ): Promise<{ width: number; height: number } | null> {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
-      img.onerror = () => resolve(null);
-      img.src = src;
-    });
   }
 }

@@ -66,7 +66,10 @@ export class LogoValidator {
       return formatResult;
     }
 
-    const detectedFormat = formatResult.format!;
+    const detectedFormat = formatResult.format;
+    if (!detectedFormat) {
+      return { isValid: false, error: 'Unable to detect logo format' };
+    }
 
     // Check if format is allowed
     const allowedFormats = logoOptions.allowedFormats || LogoValidator.SUPPORTED_FORMATS;

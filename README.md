@@ -6,7 +6,7 @@ Beautiful, stylable QR codes (SVG) with logo and patterns.
 
 - 🎨 Beautiful QR codes with customizable styles
 - 🖼️ Logo/image support in the center
-- 🌈 Gradient backgrounds and patterns
+- 🎯 Sharp and rounded pattern presets
 - 👁️ Custom eye patterns
 - 📐 Geometric shapes and patterns
 - ⚡ Lightweight and fast
@@ -35,9 +35,10 @@ const qr = new PrettyQR({
     size: 64
   },
   style: {
-    background: 'linear-gradient(45deg, #667eea 0%, #764ba2 100%)',
-    foreground: '#ffffff',
-    eyeStyle: 'rounded'
+    background: '#ffffff',
+    foreground: '#0b1324',
+    eyeStyle: 'rounded',
+    patternStyle: 'rounded'
   }
 })
 

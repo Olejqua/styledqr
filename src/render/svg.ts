@@ -115,7 +115,6 @@ export class SVGRenderer {
    * Get performance metrics for current QR code
    */
   getPerformanceMetrics(): QRPerformanceMetrics {
-    const { size = QR_CONFIG.DEFAULT_SIZE } = this.options;
     const qrData = this.qrAdapter.generate({
       text: this.options.text,
       size: 0,
