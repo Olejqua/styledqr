@@ -12,6 +12,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.mjs",
+      "require": "./dist/react.cjs"
     }
   },
   "files": [
@@ -33,11 +38,16 @@
     "prepublishOnly": "pnpm build && pnpm check && pnpm typecheck"
   },
   "dependencies": {
-    "qrcode-generator": "^1.4.4"
+    "qrcode-generator": "^1.4.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.4",
     "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.1.0",
+    "@types/react": "^18.3.8",
+    "@types/react-dom": "^18.3.0",
     "@types/node": "^22.0.0",
     "tsup": "^8.0.1",
     "typescript": "^5.5.4",
