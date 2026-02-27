@@ -53,6 +53,10 @@ export class ShapeRenderer {
     const rightNeighbor = getNeighbor(1, 0);
     const topNeighbor = getNeighbor(0, -1);
     const bottomNeighbor = getNeighbor(0, 1);
+    const topLeftNeighbor = getNeighbor(-1, -1);
+    const topRightNeighbor = getNeighbor(1, -1);
+    const bottomRightNeighbor = getNeighbor(1, 1);
+    const bottomLeftNeighbor = getNeighbor(-1, 1);
 
     const neighborsCount = [leftNeighbor, rightNeighbor, topNeighbor, bottomNeighbor].filter(
       Boolean,
@@ -63,38 +67,76 @@ export class ShapeRenderer {
       return ShapeRenderer.circle(size);
     }
 
-    if (neighborsCount > 2 || (leftNeighbor && rightNeighbor) || (topNeighbor && bottomNeighbor)) {
-      // Many neighbors or opposite neighbors - square
-      return ShapeRenderer.square(size);
+    const radius = size / 2;
+    const innerRadius = size * 0.28;
+
+    const topLeftOuter = !topNeighbor && !leftNeighbor;
+    const topRightOuter = !topNeighbor && !rightNeighbor;
+    const bottomRightOuter = !bottomNeighbor && !rightNeighbor;
+    const bottomLeftOuter = !bottomNeighbor && !leftNeighbor;
+
+    const allowInnerCutout = neighborsCount >= 3;
+    const topLeftInner = allowInnerCutout && topNeighbor && leftNeighbor && !topLeftNeighbor;
+    const topRightInner = allowInnerCutout && topNeighbor && rightNeighbor && !topRightNeighbor;
+    const bottomRightInner =
+      allowInnerCutout && bottomNeighbor && rightNeighbor && !bottomRightNeighbor;
+    const bottomLeftInner =
+      allowInnerCutout && bottomNeighbor && leftNeighbor && !bottomLeftNeighbor;
+
+    const tl = topLeftOuter ? radius : 0;
+    const tr = topRightOuter ? radius : 0;
+    const br = bottomRightOuter ? radius : 0;
+    const bl = bottomLeftOuter ? radius : 0;
+
+    let d = `M ${tl} 0`;
+    d += ` H ${size - tr}`;
+    if (tr > 0) {
+      d += ` A ${tr} ${tr} 0 0 1 ${size} ${tr}`;
+    } else {
+      d += ` L ${size} 0`;
     }
 
-    if (neighborsCount === 2) {
-      // Two neighbors - rounded corner
-      let rotation = 0;
-      if (leftNeighbor && topNeighbor) {
-        rotation = Math.PI / 2;
-      } else if (topNeighbor && rightNeighbor) {
-        rotation = Math.PI;
-      } else if (rightNeighbor && bottomNeighbor) {
-        rotation = -Math.PI / 2;
-      }
-      return ShapeRenderer.cornerRounded(size, rotation);
+    d += ` V ${size - br}`;
+    if (br > 0) {
+      d += ` A ${br} ${br} 0 0 1 ${size - br} ${size}`;
+    } else {
+      d += ` L ${size} ${size}`;
     }
 
-    if (neighborsCount === 1) {
-      // One neighbor - rounded side
-      let rotation = 0;
-      if (topNeighbor) {
-        rotation = Math.PI / 2;
-      } else if (rightNeighbor) {
-        rotation = Math.PI;
-      } else if (bottomNeighbor) {
-        rotation = -Math.PI / 2;
-      }
-      return ShapeRenderer.sideRounded(size, rotation);
+    d += ` H ${bl}`;
+    if (bl > 0) {
+      d += ` A ${bl} ${bl} 0 0 1 0 ${size - bl}`;
+    } else {
+      d += ` L 0 ${size}`;
     }
 
-    return ShapeRenderer.square(size);
+    d += ` V ${tl}`;
+    if (tl > 0) {
+      d += ` A ${tl} ${tl} 0 0 1 ${tl} 0`;
+    } else {
+      d += ' L 0 0';
+    }
+    d += ' Z';
+
+    const hasInnerCutouts = topLeftInner || topRightInner || bottomRightInner || bottomLeftInner;
+    if (!hasInnerCutouts) {
+      return `<path d="${d}"/>`;
+    }
+
+    if (topLeftInner) {
+      d += ` M 0 0 L ${innerRadius} 0 A ${innerRadius} ${innerRadius} 0 0 0 0 ${innerRadius} Z`;
+    }
+    if (topRightInner) {
+      d += ` M ${size} 0 L ${size - innerRadius} 0 A ${innerRadius} ${innerRadius} 0 0 1 ${size} ${innerRadius} Z`;
+    }
+    if (bottomRightInner) {
+      d += ` M ${size} ${size} L ${size - innerRadius} ${size} A ${innerRadius} ${innerRadius} 0 0 0 ${size} ${size - innerRadius} Z`;
+    }
+    if (bottomLeftInner) {
+      d += ` M 0 ${size} L ${innerRadius} ${size} A ${innerRadius} ${innerRadius} 0 0 1 0 ${size - innerRadius} Z`;
+    }
+
+    return `<path d="${d}" fill-rule="evenodd"/>`;
   }
 
   /**

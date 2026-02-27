@@ -2,6 +2,9 @@ import { QR_CONFIG } from '../config/qr-config';
 import type { LogoOptions, QRCodeData, StyleOptions } from '../encoder/types';
 import { EyeRenderer } from './eyes';
 import { LogoRenderer } from './logo';
+import { extractContours } from './rounded-contours';
+import { buildRoundedMask } from './rounded-mask';
+import { buildRoundedPath } from './rounded-path';
 import { ShapeRenderer } from './shapes';
 import { SVGStringBuilder } from './svg-builder';
 
@@ -14,6 +17,49 @@ export interface ModuleRenderOptions {
 }
 
 export class ModuleRenderer {
+  private static isActiveModule(
+    row: number,
+    col: number,
+    qrSize: number,
+    modules: boolean[][],
+    eyePositions: Set<string>,
+    logoAreas: Set<string>,
+  ): boolean {
+    if (row < 0 || row >= qrSize || col < 0 || col >= qrSize) {
+      return false;
+    }
+
+    const key = `${row},${col}`;
+    if (eyePositions.has(key) || logoAreas.has(key)) {
+      return false;
+    }
+
+    return modules[row][col];
+  }
+
+  private static renderRoundedBlobModules(
+    qrData: QRCodeData,
+    moduleSize: number,
+    margin: number,
+    foreground: string,
+    eyePositions: Set<string>,
+    logoAreas: Set<string>,
+  ): string {
+    const mask = buildRoundedMask(qrData, eyePositions, logoAreas);
+    const contours = extractContours(mask);
+    if (contours.length === 0) {
+      return '';
+    }
+
+    const d = buildRoundedPath(contours, {
+      moduleSize,
+      margin,
+      cornerRadius: moduleSize * 0.35,
+    });
+
+    return `<path d="${d}" fill="${foreground}" fill-rule="evenodd"/>`;
+  }
+
   /**
    * Render all QR code modules (excluding eyes) - optimized version
    */
@@ -51,6 +97,17 @@ export class ModuleRenderer {
       }
     }
 
+    if (shapeStyle === 'rounded') {
+      return ModuleRenderer.renderRoundedBlobModules(
+        qrData,
+        moduleSize,
+        margin,
+        foreground,
+        eyePositions,
+        logoAreas,
+      );
+    }
+
     // Render modules in batches for better performance
     for (let row = 0; row < qrSize; row++) {
       for (let col = 0; col < qrSize; col++) {
@@ -70,19 +127,9 @@ export class ModuleRenderer {
           const x = margin + col * moduleSize;
           const y = margin + row * moduleSize;
 
-          // Create getNeighbor function for smart patterns
-          const getNeighbor = (xOffset: number, yOffset: number): boolean => {
-            const newRow = row + yOffset;
-            const newCol = col + xOffset;
-            if (newRow < 0 || newRow >= qrSize || newCol < 0 || newCol >= qrSize) return false;
-            return modules[newRow][newCol];
-          };
-
-          // Use shape renderer with getNeighbor function for smart patterns
           const shape = ShapeRenderer.render({
             size: moduleSize,
             style: shapeStyle,
-            getNeighbor: shapeStyle === 'rounded' ? getNeighbor : undefined,
           });
 
           builder.append(`<g transform="translate(${x}, ${y})" fill="${foreground}">
