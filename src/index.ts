@@ -1,9 +1,12 @@
 import type { PrettyQROptions } from './encoder/types';
 import { SVGRenderer } from './render/svg';
+import { renderPrettyQRSvg } from './render/render-prettyqr-svg';
 
 export { QRCodeAdapter } from './encoder/adapter-qrcode-generator';
 export type {
   LogoOptions,
+  LogoFormat,
+  LogoScaleStrategy,
   PrettyQROptions,
   QRCodeData,
   QRCodeOptions,
@@ -21,12 +24,14 @@ export { LogoRenderer } from './render/logo';
 export type { ShapeOptions } from './render/shapes';
 export { ShapeRenderer } from './render/shapes';
 export { SVGRenderer } from './render/svg';
+export { renderPrettyQRSvg } from './render/render-prettyqr-svg';
 
 // New specialized renderers
 export { BackgroundRenderer } from './render/background-renderer';
 export { ModuleRenderer } from './render/module-renderer';
 export { SVGStringBuilder } from './render/svg-builder';
 export { QR_CONFIG } from './config/qr-config';
+export { LogoValidator } from './render/logo-validator';
 
 
 /**
@@ -34,8 +39,10 @@ export { QR_CONFIG } from './config/qr-config';
  */
 export class PrettyQR {
   private renderer: SVGRenderer;
+  private options: PrettyQROptions;
 
   constructor(options: PrettyQROptions) {
+    this.options = options;
     this.renderer = new SVGRenderer(options);
   }
 
@@ -43,7 +50,7 @@ export class PrettyQR {
    * Generate SVG string
    */
   toSVG(): string {
-    return this.renderer.generate();
+    return renderPrettyQRSvg(this.options);
   }
 
   /**
