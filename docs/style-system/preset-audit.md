@@ -23,3 +23,9 @@ Weights:
 | mono | 4.40 | low | conservative | safe-default |
 | default | 4.15 | low | conservative | safe-default |
 | telegram | 4.00 | low | expressive | safe-default |
+
+## Ranking
+
+1. mono (4.40)
+2. default (4.15)
+3. telegram (4.00)

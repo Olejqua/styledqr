@@ -1,10 +1,4 @@
-import type {
-  AuditCriterionId,
-  PresetAuditScore,
-  PresetCriteria,
-  RiskLevel,
-  Tone,
-} from './types';
+import type { AuditCriterionId, PresetAuditScore, PresetCriteria, RiskLevel, Tone } from './types';
 
 const WEIGHTS: Record<AuditCriterionId, number> = {
   brandFit: 0.25,

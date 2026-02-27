@@ -66,6 +66,20 @@ export function App() {
 }
 ```
 
+## Preset Audit
+
+Generate the current expert preset audit report:
+
+```bash
+pnpm run audit:presets
+```
+
+This writes `docs/style-system/preset-audit.md` with:
+- weighted total score
+- risk level (`low` / `medium` / `high`)
+- visual tone (`conservative` / `balanced` / `expressive`)
+- recommendation label for each preset
+
 ## Development
 
 ```bash

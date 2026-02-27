@@ -15,6 +15,9 @@ function toRow(score: PresetAuditScore): string {
 export function buildPresetAuditReport(): string {
   const scores = scoreCurrentPresets();
   const rows = scores.map(toRow).join('\n');
+  const ranking = scores
+    .map((score, index) => `${index + 1}. ${score.preset} (${score.total.toFixed(2)})`)
+    .join('\n');
 
   return `# Preset Audit (Expert Review)
 
@@ -39,6 +42,9 @@ Weights:
 | Preset | Total | Risk | Tone | Recommendation |
 |---|---:|---|---|---|
 ${rows}
+
+## Ranking
+
+${ranking}
 `;
 }
-

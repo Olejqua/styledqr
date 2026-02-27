@@ -9,4 +9,9 @@ describe('buildPresetAuditReport', () => {
     expect(md).toContain('telegram');
     expect(md).toContain('mono');
   });
+
+  it('includes ranking section', () => {
+    const md = buildPresetAuditReport();
+    expect(md).toContain('## Ranking');
+  });
 });
