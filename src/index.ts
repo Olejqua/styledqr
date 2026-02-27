@@ -1,11 +1,12 @@
-import type { PrettyQROptions } from './encoder/types';
-import { SVGRenderer } from './render/svg';
+import type { PrettyQROptions, QRPerformanceMetrics } from './encoder/types';
 import { renderPrettyQRSvg } from './render/render-prettyqr-svg';
+import { SVGRenderer } from './render/svg';
 
+export { QR_CONFIG } from './config/qr-config';
 export { QRCodeAdapter } from './encoder/adapter-qrcode-generator';
 export type {
-  LogoOptions,
   LogoFormat,
+  LogoOptions,
   LogoScaleStrategy,
   PrettyQROptions,
   QRCodeData,
@@ -17,22 +18,19 @@ export type {
   Position,
 } from './geometry/neighbors';
 export { NeighborAnalyzer } from './geometry/neighbors';
+// New specialized renderers
+export { BackgroundRenderer } from './render/background-renderer';
 export type { EyePattern } from './render/eyes';
 export { EyeRenderer } from './render/eyes';
 // Gradient support removed for MVP1
 export { LogoRenderer } from './render/logo';
+export { LogoValidator } from './render/logo-validator';
+export { ModuleRenderer } from './render/module-renderer';
+export { renderPrettyQRSvg } from './render/render-prettyqr-svg';
 export type { ShapeOptions } from './render/shapes';
 export { ShapeRenderer } from './render/shapes';
 export { SVGRenderer } from './render/svg';
-export { renderPrettyQRSvg } from './render/render-prettyqr-svg';
-
-// New specialized renderers
-export { BackgroundRenderer } from './render/background-renderer';
-export { ModuleRenderer } from './render/module-renderer';
 export { SVGStringBuilder } from './render/svg-builder';
-export { QR_CONFIG } from './config/qr-config';
-export { LogoValidator } from './render/logo-validator';
-
 
 /**
  * Main PrettyQR class - simple API for generating beautiful QR codes
@@ -87,7 +85,7 @@ export class PrettyQR {
   /**
    * Get performance metrics for current QR code
    */
-  getPerformanceMetrics(): any {
+  getPerformanceMetrics(): QRPerformanceMetrics {
     return this.renderer.getPerformanceMetrics();
   }
 }

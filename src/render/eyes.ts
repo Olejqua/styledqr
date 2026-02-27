@@ -1,5 +1,5 @@
-import type { StyleOptions } from '../encoder/types';
 import { QR_CONFIG } from '../config/qr-config';
+import type { StyleOptions } from '../encoder/types';
 import { ShapeRenderer } from './shapes';
 
 export interface EyePattern {
@@ -40,7 +40,11 @@ export class EyeRenderer {
   /**
    * Render a single eye part with specific style
    */
-  private renderEyePart(size: number, style: 'square' | 'rounded' | 'full-rounded', cornerRadius: number): string {
+  private renderEyePart(
+    size: number,
+    style: 'square' | 'rounded' | 'full-rounded',
+    cornerRadius: number,
+  ): string {
     switch (style) {
       case 'square':
         return ShapeRenderer.render({

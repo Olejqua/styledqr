@@ -1,6 +1,11 @@
-import { QRCodeAdapter } from '../encoder/adapter-qrcode-generator';
-import type { PrettyQROptions, QRCodeData, StyleOptions } from '../encoder/types';
 import { QR_CONFIG } from '../config/qr-config';
+import { QRCodeAdapter } from '../encoder/adapter-qrcode-generator';
+import type {
+  PrettyQROptions,
+  QRCodeData,
+  QRPerformanceMetrics,
+  StyleOptions,
+} from '../encoder/types';
 import { BackgroundRenderer } from './background-renderer';
 import { EyeRenderer } from './eyes';
 import { LogoRenderer } from './logo';
@@ -20,7 +25,12 @@ export class SVGRenderer {
    * Generate the complete SVG QR code
    */
   generate(): string {
-    const { text, size = QR_CONFIG.DEFAULT_SIZE, margin = QR_CONFIG.DEFAULT_MARGIN, style = {} } = this.options;
+    const {
+      text,
+      size = QR_CONFIG.DEFAULT_SIZE,
+      margin = QR_CONFIG.DEFAULT_MARGIN,
+      style = {},
+    } = this.options;
 
     // Generate QR code data
     const qrData = this.qrAdapter.generate({
@@ -76,14 +86,13 @@ export class SVGRenderer {
     });
     builder.append(moduleElements);
 
-    // Add logo
+    // Add logo (will be handled synchronously for now)
     if (this.options.logo) {
       builder.append(LogoRenderer.renderLogo(this.options.logo, qrSize, moduleSize));
     }
 
     return builder.build();
   }
-
 
   /**
    * Generate QR code and return as data URL
@@ -105,14 +114,14 @@ export class SVGRenderer {
   /**
    * Get performance metrics for current QR code
    */
-  getPerformanceMetrics(): any {
+  getPerformanceMetrics(): QRPerformanceMetrics {
     const { size = QR_CONFIG.DEFAULT_SIZE } = this.options;
     const qrData = this.qrAdapter.generate({
       text: this.options.text,
       size: 0,
       errorCorrectionLevel: this.options.errorCorrectionLevel || 'M',
     });
-    
+
     return {
       qrSize: qrData.size,
       totalModules: qrData.size * qrData.size,

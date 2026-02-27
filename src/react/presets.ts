@@ -1,7 +1,6 @@
-import type { PrettyQROptions } from '../encoder/types';
-import type { PrettyQRPreset } from './types';
+import type { PrettyQROptionsOverride, PrettyQRPreset } from './types';
 
-export const PRETTY_QR_PRESETS: Record<PrettyQRPreset, PrettyQROptions> = {
+export const PRETTY_QR_PRESETS: Record<PrettyQRPreset, PrettyQROptionsOverride> = {
   default: {
     margin: 4,
     size: 256,
@@ -11,8 +10,8 @@ export const PRETTY_QR_PRESETS: Record<PrettyQRPreset, PrettyQROptions> = {
       foreground: '#000000',
       eyeStyle: 'square',
       cornerStyle: 'square',
-      patternStyle: 'square'
-    }
+      patternStyle: 'square',
+    },
   },
   telegram: {
     margin: 4,
@@ -23,8 +22,8 @@ export const PRETTY_QR_PRESETS: Record<PrettyQRPreset, PrettyQROptions> = {
       foreground: '#229ed9',
       eyeStyle: 'rounded',
       cornerStyle: 'rounded',
-      patternStyle: 'rounded'
-    }
+      patternStyle: 'rounded',
+    },
   },
   mono: {
     margin: 4,
@@ -35,7 +34,7 @@ export const PRETTY_QR_PRESETS: Record<PrettyQRPreset, PrettyQROptions> = {
       foreground: '#111111',
       eyeStyle: 'square',
       cornerStyle: 'square',
-      patternStyle: 'square'
-    }
-  }
+      patternStyle: 'square',
+    },
+  },
 };

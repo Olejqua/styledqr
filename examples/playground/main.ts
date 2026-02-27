@@ -106,11 +106,6 @@ function applyPreset(presetName: string) {
 // Generate QR code
 function generateQR() {
   try {
-    console.log('Generating QR with styles:', {
-      eyeStyle: eyeStyleSelect.value,
-      patternStyle: patternStyleSelect.value
-    });
-    
     const options = {
       text: textInput.value || 'https://github.com/your-username/prettyqr',
       size: parseInt(sizeInput.value, 10),
@@ -119,11 +114,7 @@ function generateQR() {
         background: backgroundInput.value,
         foreground: foregroundInput.value,
         eyeStyle: eyeStyleSelect.value as 'square' | 'rounded' | 'full-rounded',
-        patternStyle: patternStyleSelect.value as
-          | 'square'
-          | 'rounded'
-          | 'circle'
-          | 'diamond',
+        patternStyle: patternStyleSelect.value as 'square' | 'rounded' | 'circle' | 'diamond',
         // Gradient support removed for MVP1
       },
       logo: logoInput.value

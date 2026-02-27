@@ -1,6 +1,8 @@
 import QRCode from 'qrcode-generator';
 import type { QRCodeData, QRCodeOptions } from './types';
 
+type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
+
 export class QRCodeAdapter {
   private qr: QRCode;
 
@@ -37,7 +39,7 @@ export class QRCodeAdapter {
     };
   }
 
-  private getErrorCorrectionLevel(level: string): any {
+  private getErrorCorrectionLevel(level: string): ErrorCorrectionLevel {
     switch (level) {
       case 'L':
         return 'L';

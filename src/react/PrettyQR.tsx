@@ -1,4 +1,3 @@
-import React from 'react';
 import type { CSSProperties } from 'react';
 import { renderPrettyQRSvg } from '../render/render-prettyqr-svg';
 import { resolvePrettyQROptions } from './resolve-options';
@@ -6,11 +5,11 @@ import type { PrettyQRProps } from './types';
 
 function escapeHtml(value: string): string {
   return value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;');
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function decorateSvg(svg: string, props: PrettyQRProps): string {
@@ -24,7 +23,7 @@ function decorateSvg(svg: string, props: PrettyQRProps): string {
     attributes.push(`aria-label="${escapeHtml(props['aria-label'])}"`);
   }
 
-  let output = svg.replace('<svg ', `<svg ${attributes.join(' ')} `);
+  const output = svg.replace('<svg ', `<svg ${attributes.join(' ')} `);
 
   if (!props.title && !props.desc) {
     return output;
@@ -42,8 +41,10 @@ export function PrettyQR(props: PrettyQRProps) {
 
     return (
       <div
+        data-prettyqr='true'
         className={props.className}
         style={props.style as CSSProperties | undefined}
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: SVG is generated internally from validated options and escaped metadata.
         dangerouslySetInnerHTML={{ __html: svg }}
       />
     );
@@ -52,6 +53,12 @@ export function PrettyQR(props: PrettyQRProps) {
       throw error;
     }
 
-    return <div className={props.className} style={props.style as CSSProperties | undefined} />;
+    return (
+      <div
+        data-prettyqr='true'
+        className={props.className}
+        style={props.style as CSSProperties | undefined}
+      />
+    );
   }
 }

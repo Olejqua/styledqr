@@ -38,12 +38,13 @@ export class ShapeRenderer {
     return `<polygon points="${points}"/>`;
   }
 
-
-
   /**
    * Render a smart rounded shape based on neighbors (like competitor)
    */
-  static smartRounded(size: number, getNeighbor?: (xOffset: number, yOffset: number) => boolean): string {
+  static smartRounded(
+    size: number,
+    getNeighbor?: (xOffset: number, yOffset: number) => boolean,
+  ): string {
     if (!getNeighbor) {
       return ShapeRenderer.square(size);
     }
@@ -53,8 +54,9 @@ export class ShapeRenderer {
     const topNeighbor = getNeighbor(0, -1);
     const bottomNeighbor = getNeighbor(0, 1);
 
-    const neighborsCount = [leftNeighbor, rightNeighbor, topNeighbor, bottomNeighbor]
-      .filter(Boolean).length;
+    const neighborsCount = [leftNeighbor, rightNeighbor, topNeighbor, bottomNeighbor].filter(
+      Boolean,
+    ).length;
 
     if (neighborsCount === 0) {
       // No neighbors - fully rounded (circle)
@@ -95,7 +97,6 @@ export class ShapeRenderer {
     return ShapeRenderer.square(size);
   }
 
-
   /**
    * Render a corner rounded shape
    */
@@ -103,9 +104,9 @@ export class ShapeRenderer {
     const cx = size / 2;
     const cy = size / 2;
     const radius = size / 2;
-    
+
     const path = `M 0 0 v ${size} h ${size} v ${-size / 2} a ${radius} ${radius} 0 0 0 ${-radius} ${-radius}`;
-    
+
     return `<path d="${path}" transform="rotate(${(rotation * 180) / Math.PI} ${cx} ${cy})"/>`;
   }
 
@@ -116,9 +117,9 @@ export class ShapeRenderer {
     const cx = size / 2;
     const cy = size / 2;
     const radius = size / 2;
-    
+
     const path = `M 0 0 v ${size} h ${size / 2} a ${radius} ${radius} 0 0 0 0 ${-size}`;
-    
+
     return `<path d="${path}" transform="rotate(${(rotation * 180) / Math.PI} ${cx} ${cy})"/>`;
   }
 
@@ -129,9 +130,9 @@ export class ShapeRenderer {
     const cx = size / 2;
     const cy = size / 2;
     const radius = size / 2;
-    
+
     const path = `M 0 ${size / 2} v ${size / 2} a ${radius} ${radius} 0 0 0 ${radius} ${radius} h ${size / 2} v ${-size / 2} a ${radius} ${radius} 0 0 0 ${-radius} ${-radius}`;
-    
+
     return `<path d="${path}" transform="rotate(${(rotation * 180) / Math.PI} ${cx} ${cy})"/>`;
   }
 
@@ -142,9 +143,9 @@ export class ShapeRenderer {
     const cx = size / 2;
     const cy = size / 2;
     const radius = size;
-    
+
     const path = `M 0 0 v ${size} h ${size} a ${radius} ${radius} 0 0 0 ${-radius} ${-radius}`;
-    
+
     return `<path d="${path}" transform="rotate(${(rotation * 180) / Math.PI} ${cx} ${cy})"/>`;
   }
 
@@ -158,7 +159,9 @@ export class ShapeRenderer {
       case 'square':
         return ShapeRenderer.square(size, cornerRadius);
       case 'rounded':
-        return getNeighbor ? ShapeRenderer.smartRounded(size, getNeighbor) : ShapeRenderer.square(size, cornerRadius || size * 0.2);
+        return getNeighbor
+          ? ShapeRenderer.smartRounded(size, getNeighbor)
+          : ShapeRenderer.square(size, cornerRadius || size * 0.2);
       case 'circle':
         return ShapeRenderer.circle(size);
       case 'diamond':

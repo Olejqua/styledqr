@@ -6,7 +6,7 @@ describe('renderPrettyQRSvg', () => {
     const options = {
       text: 'hello',
       size: 180,
-      style: { foreground: '#000000', background: '#ffffff' }
+      style: { foreground: '#000000', background: '#ffffff' },
     };
 
     expect(renderPrettyQRSvg(options)).toBe(renderPrettyQRSvg(options));
@@ -20,11 +20,11 @@ describe('renderPrettyQRSvg', () => {
   it('changes output when style changes', () => {
     const a = renderPrettyQRSvg({
       text: 'hello',
-      style: { foreground: '#000000' }
+      style: { foreground: '#000000' },
     });
     const b = renderPrettyQRSvg({
       text: 'hello',
-      style: { foreground: '#ff0000' }
+      style: { foreground: '#ff0000' },
     });
 
     expect(a).not.toBe(b);

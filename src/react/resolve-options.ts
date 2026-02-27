@@ -1,6 +1,6 @@
 import type { PrettyQROptions } from '../encoder/types';
 import { PRETTY_QR_PRESETS } from './presets';
-import type { PrettyQRProps, PrettyQRPreset } from './types';
+import type { PrettyQROptionsOverride, PrettyQRPreset, PrettyQRProps } from './types';
 
 function clampSize(size: number | undefined): number | undefined {
   if (size === undefined || Number.isNaN(size)) {
@@ -11,9 +11,9 @@ function clampSize(size: number | undefined): number | undefined {
 }
 
 function mergeOptions(
-  base: PrettyQROptions,
+  base: PrettyQROptionsOverride,
   shortProps: PrettyQROptions,
-  override: PrettyQROptions | undefined
+  override: PrettyQROptionsOverride | undefined,
 ): PrettyQROptions {
   return {
     ...base,
@@ -22,8 +22,8 @@ function mergeOptions(
     style: {
       ...base.style,
       ...shortProps.style,
-      ...override?.style
-    }
+      ...override?.style,
+    },
   };
 }
 
@@ -36,12 +36,12 @@ export function resolvePrettyQROptions(props: PrettyQRProps): PrettyQROptions {
   const preset = PRETTY_QR_PRESETS[presetName] ?? PRETTY_QR_PRESETS.default;
   const shortProps: PrettyQROptions = {
     text: props.value,
-    size: clampSize(props.size)
+    size: clampSize(props.size),
   };
   const merged = mergeOptions(preset, shortProps, props.options);
 
   return {
     ...merged,
-    size: clampSize(merged.size)
+    size: clampSize(merged.size),
   };
 }

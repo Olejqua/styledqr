@@ -1,8 +1,8 @@
-import type { QRCodeData, StyleOptions } from '../encoder/types';
 import { QR_CONFIG } from '../config/qr-config';
-import { ShapeRenderer } from './shapes';
+import type { LogoOptions, QRCodeData, StyleOptions } from '../encoder/types';
 import { EyeRenderer } from './eyes';
 import { LogoRenderer } from './logo';
+import { ShapeRenderer } from './shapes';
 import { SVGStringBuilder } from './svg-builder';
 
 export interface ModuleRenderOptions {
@@ -10,7 +10,7 @@ export interface ModuleRenderOptions {
   moduleSize: number;
   margin: number;
   style: StyleOptions;
-  logo?: any; // LogoOptions
+  logo?: LogoOptions;
 }
 
 export class ModuleRenderer {
@@ -20,9 +20,13 @@ export class ModuleRenderer {
   static renderModules(options: ModuleRenderOptions): string {
     const { qrData, moduleSize, margin, style, logo } = options;
     const { modules, size: qrSize } = qrData;
-    
+
     const builder = new SVGStringBuilder();
-    const shapeStyle = (style.patternStyle || 'square') as 'square' | 'rounded' | 'circle' | 'diamond';
+    const shapeStyle = (style.patternStyle || 'square') as
+      | 'square'
+      | 'rounded'
+      | 'circle'
+      | 'diamond';
     const foreground = style.foreground || QR_CONFIG.DEFAULT_FOREGROUND;
 
     // Pre-compute eye positions for faster lookup
@@ -51,7 +55,7 @@ export class ModuleRenderer {
     for (let row = 0; row < qrSize; row++) {
       for (let col = 0; col < qrSize; col++) {
         const key = `${row},${col}`;
-        
+
         // Skip eye patterns
         if (eyePositions.has(key)) {
           continue;
@@ -80,7 +84,7 @@ export class ModuleRenderer {
             style: shapeStyle,
             getNeighbor: shapeStyle === 'rounded' ? getNeighbor : undefined,
           });
-          
+
           builder.append(`<g transform="translate(${x}, ${y})" fill="${foreground}">
             ${shape}
           </g>`);

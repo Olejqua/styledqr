@@ -8,15 +8,14 @@ describe('resolvePrettyQROptions', () => {
       preset: 'telegram',
       size: 180,
       options: {
-        text: 'from-options',
         size: 240,
         style: {
-          foreground: '#111111'
-        }
-      }
+          foreground: '#111111',
+        },
+      },
     });
 
-    expect(resolved.text).toBe('from-options');
+    expect(resolved.text).toBe('hello');
     expect(resolved.size).toBe(240);
     expect(resolved.style?.foreground).toBe('#111111');
     expect(resolved.style?.background).toBe('#ffffff');
@@ -30,7 +29,7 @@ describe('resolvePrettyQROptions', () => {
   it('falls back to default preset for unknown preset values', () => {
     const resolved = resolvePrettyQROptions({
       value: 'hello',
-      preset: 'unknown-preset' as never
+      preset: 'unknown-preset' as never,
     });
 
     expect(resolved.style?.foreground).toBe('#000000');
