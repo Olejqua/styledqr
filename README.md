@@ -44,6 +44,28 @@ const qr = new PrettyQR({
 const svg = qr.toSVG()
 ```
 
+## React Usage
+
+```tsx
+import { PrettyQR } from 'prettyqr/react';
+
+export function App() {
+  return (
+    <PrettyQR
+      value='https://example.com'
+      size={256}
+      preset='telegram'
+      options={{
+        style: {
+          foreground: '#229ed9',
+        },
+      }}
+      aria-label='Example QR code'
+    />
+  );
+}
+```
+
 ## Development
 
 ```bash
