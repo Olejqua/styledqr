@@ -5,8 +5,15 @@
   "keywords": [
     "qr",
     "qrcode",
+    "qr-code",
+    "qr-code-generator",
+    "qr-code-react",
+    "react-qr",
     "svg",
     "react",
+    "tailwind",
+    "shadcn",
+    "typescript",
     "styledqr"
   ],
   "homepage": "https://github.com/Olejqua/styledqr#readme",

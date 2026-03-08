@@ -8,7 +8,7 @@ export default defineConfig({
   format: ['cjs', 'esm'],
   dts: true,
   splitting: false,
-  sourcemap: true,
+  sourcemap: false,
   clean: true,
   minify: false,
   external: ['qrcode-generator', 'react', 'react-dom'],
