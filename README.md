@@ -96,14 +96,16 @@ More copy-paste composition examples: `docs/style-system/shadcn-recipes.md`.
 
 - Changelog: `CHANGELOG.md`
 - Automated publishing: `.github/workflows/release.yml`
+- Publish auth: npm Trusted Publisher (GitHub Actions OIDC)
 - Release flow:
 1. Run `pnpm changeset` and describe the change.
 2. Push to `main`.
 3. GitHub Action creates/updates a "Version Packages" PR.
 4. Merge that PR to publish to npm and create a GitHub Release.
 
-Required GitHub secret:
-- `NPM_TOKEN` (automation token with publish rights to `styledqr`).
+One-time npm setup:
+1. Publish `styledqr` once from your account.
+2. In npm package settings, add `Olejqua/styledqr` workflow as Trusted Publisher.
 
 ## Development
 
