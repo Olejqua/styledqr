@@ -2,6 +2,21 @@
   "name": "styledqr",
   "version": "0.1.0",
   "description": "Beautiful, stylable QR codes (SVG) with logo and patterns.",
+  "keywords": [
+    "qr",
+    "qrcode",
+    "svg",
+    "react",
+    "styledqr"
+  ],
+  "homepage": "https://github.com/Olejqua/styledqr#readme",
+  "bugs": {
+    "url": "https://github.com/Olejqua/styledqr/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Olejqua/styledqr.git"
+  },
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -35,7 +50,20 @@
     "check": "biome check .",
     "check:fix": "biome check --apply .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "prepublishOnly": "pnpm build && pnpm check && pnpm typecheck"
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish",
+    "prepublishOnly": "pnpm build && pnpm check && pnpm typecheck",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,mjs,cjs,json,md,html,yml,yaml}": [
+      "biome check --write --no-errors-on-unmatched"
+    ]
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   },
   "dependencies": {
     "qrcode-generator": "^1.4.4"
@@ -46,18 +74,22 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.4",
+    "@changesets/changelog-github": "^0.6.0",
+    "@changesets/cli": "^2.30.0",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.1.0",
+    "@types/node": "^22.0.0",
     "@types/react": "^18.3.8",
     "@types/react-dom": "^18.3.0",
-    "@types/node": "^22.0.0",
-    "tsup": "^8.0.1",
-    "typescript": "^5.5.4",
+    "husky": "^9.1.7",
+    "jsdom": "^24.1.1",
+    "lint-staged": "^16.3.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "tsup": "^8.0.1",
+    "typescript": "^5.5.4",
     "vite": "^5.4.0",
-    "vitest": "^2.0.5",
-    "jsdom": "^24.1.1"
+    "vitest": "^2.0.5"
   },
   "packageManager": "pnpm@10.13.1+sha512.37ebf1a5c7a30d5fabe0c5df44ee8da4c965ca0c5af3dbab28c3a1681b70a256218d05c81c9c0dcf767ef6b8551eb5b960042b9ed4300c59242336377e01cfad"
 }
