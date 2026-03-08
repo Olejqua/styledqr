@@ -1,6 +1,6 @@
 {
   "name": "styledqr",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Beautiful, stylable QR codes (SVG) with logo and patterns.",
   "keywords": [
     "qr",
