@@ -7,14 +7,14 @@ describe('test setup', () => {
     expect(true).toBe(true);
   });
 
-  it('documents PrettyQR as a shadcn-friendly primitive', () => {
-    expect(readme).toContain('PrettyQR is a rendering primitive');
+  it('documents StyledQR as a shadcn-friendly primitive', () => {
+    expect(readme).toContain('StyledQR is a rendering primitive');
     expect(readme).toContain('Bring your own shadcn/ui components');
   });
 
   it('contains shadcn composition recipes', () => {
-    expect(shadcnRecipes).toContain('Card + PrettyQR');
-    expect(shadcnRecipes).toContain('Dialog + PrettyQR');
-    expect(shadcnRecipes).toContain('Tabs + PrettyQR');
+    expect(shadcnRecipes).toContain('Card + StyledQR');
+    expect(shadcnRecipes).toContain('Dialog + StyledQR');
+    expect(shadcnRecipes).toContain('Tabs + StyledQR');
   });
 });

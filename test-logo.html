@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrettyQR Logo Test</title>
+    <title>StyledQR Logo Test</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,7 +60,7 @@
     </style>
 </head>
 <body>
-    <h1>PrettyQR Logo Integration Test</h1>
+    <h1>StyledQR Logo Integration Test</h1>
     
     <div class="test-section">
         <h2>Logo Input</h2>
@@ -87,7 +87,7 @@
     </div>
 
     <script type="module">
-        import { PrettyQR } from './dist/index.js';
+        import { StyledQR } from './dist/index.js';
 
         // Test with the Bitcoin logo
         const bitcoinLogo = 'https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=040';
@@ -103,7 +103,7 @@
             const container = document.getElementById('qr-container');
             
             try {
-                const qr = new PrettyQR({
+                const qr = new StyledQR({
                     text: 'Bitcoin Logo Test - https://bitcoin.org',
                     size: 300,
                     logo: {
@@ -139,7 +139,7 @@
         function generateWithoutLogo() {
             const container = document.getElementById('qr-container');
             
-            const qr = new PrettyQR({
+            const qr = new StyledQR({
                 text: 'Bitcoin Logo Test - https://bitcoin.org',
                 size: 300,
                 style: {
@@ -168,7 +168,7 @@
             let html = '';
             sizes.forEach(size => {
                 try {
-                    const qr = new PrettyQR({
+                    const qr = new StyledQR({
                         text: `Size Test ${size}px`,
                         size: 200,
                         logo: {

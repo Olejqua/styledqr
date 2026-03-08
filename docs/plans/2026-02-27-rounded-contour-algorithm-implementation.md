@@ -6,7 +6,7 @@
 
 **Architecture:** Build a binary data-module mask (excluding eyes/logo-safe zones), upscale it to a fine grid, run a conservative contour extraction (marching-squares-like edge tracing), and emit one or more SVG paths with controlled smoothing. Keep a feature flag for A/B comparisons and preserve existing square/circle/diamond styles.
 
-**Tech Stack:** TypeScript, SVG path generation, Vitest, Vite playground, existing PrettyQR render pipeline.
+**Tech Stack:** TypeScript, SVG path generation, Vitest, Vite playground, existing StyledQR render pipeline.
 
 ---
 
@@ -223,20 +223,20 @@ git commit -m "feat: enforce rounded rendering decode constraints"
 **Files:**
 - Modify: `examples/playground/main.ts`
 - Modify: `examples/playground/index.html`
-- Test: `src/render/render-prettyqr-svg.test.ts`
+- Test: `src/render/render-styledqr-svg.test.ts`
 
 **Step 1: Write the failing test**
 
 ```ts
 it('uses contour rounded renderer when advancedRounded is enabled', () => {
-  const svg = renderPrettyQR({ ..., style: { patternStyle: 'rounded', advancedRounded: true } });
+  const svg = renderStyledQR({ ..., style: { patternStyle: 'rounded', advancedRounded: true } });
   expect(svg).toContain('<path');
 });
 ```
 
 **Step 2: Run test to verify it fails**
 
-Run: `pnpm run test -- src/render/render-prettyqr-svg.test.ts`
+Run: `pnpm run test -- src/render/render-styledqr-svg.test.ts`
 Expected: FAIL because toggle is unsupported.
 
 **Step 3: Write minimal implementation**
@@ -249,13 +249,13 @@ if (style.patternStyle === 'rounded' && style.advancedRounded) {
 
 **Step 4: Run test to verify it passes**
 
-Run: `pnpm run test -- src/render/render-prettyqr-svg.test.ts`
+Run: `pnpm run test -- src/render/render-styledqr-svg.test.ts`
 Expected: PASS.
 
 **Step 5: Commit**
 
 ```bash
-git add examples/playground/main.ts examples/playground/index.html src/render/render-prettyqr-svg.test.ts
+git add examples/playground/main.ts examples/playground/index.html src/render/render-styledqr-svg.test.ts
 git commit -m "feat: add advanced rounded toggle in playground"
 ```
 

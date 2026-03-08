@@ -1,8 +1,8 @@
-# PrettyQR React SDK Implementation Plan
+# StyledQR React SDK Implementation Plan
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Add an SSR-first React SDK entrypoint (`prettyqr/react`) with a hybrid API (`value`, `size`, `preset`, `options`) and deterministic SVG rendering.
+**Goal:** Add an SSR-first React SDK entrypoint (`styledqr/react`) with a hybrid API (`value`, `size`, `preset`, `options`) and deterministic SVG rendering.
 
 **Architecture:** Extract a pure core render function and a small options resolver (`preset < short props < options`), then build a thin React adapter on top. Keep v1 minimal: one component, no provider/hook abstractions, and strict TDD for each behavior.
 
@@ -69,11 +69,11 @@ Write type-level expectations (runtime smoke + compile references):
 
 ```ts
 import { describe, expect, it } from 'vitest';
-import type { PrettyQRProps } from './types';
+import type { StyledQRProps } from './types';
 
-describe('PrettyQRProps', () => {
+describe('StyledQRProps', () => {
   it('is importable', () => {
-    const props: PrettyQRProps = { value: 'hello' };
+    const props: StyledQRProps = { value: 'hello' };
     expect(props.value).toBe('hello');
   });
 });
@@ -86,7 +86,7 @@ Expected: FAIL because file/types do not exist.
 
 **Step 3: Write minimal implementation**
 
-Add `PrettyQRPreset` and `PrettyQRProps` with:
+Add `StyledQRPreset` and `StyledQRProps` with:
 - `value`, `size`, `preset`, `options`
 - `className`, `style`, `title`, `desc`, `aria-label`, `id`
 
@@ -153,8 +153,8 @@ git commit -m "feat: add react preset resolver with merge precedence"
 
 **Files:**
 - Modify: `src/index.ts`
-- Create: `src/render/render-prettyqr-svg.ts`
-- Test: `src/render/render-prettyqr-svg.test.ts`
+- Create: `src/render/render-styledqr-svg.ts`
+- Test: `src/render/render-styledqr-svg.test.ts`
 
 **Step 1: Write the failing test**
 
@@ -165,7 +165,7 @@ Add tests for:
 
 **Step 2: Run test to verify it fails**
 
-Run: `pnpm run test src/render/render-prettyqr-svg.test.ts`  
+Run: `pnpm run test src/render/render-styledqr-svg.test.ts`  
 Expected: FAIL because function does not exist.
 
 **Step 3: Write minimal implementation**
@@ -173,30 +173,30 @@ Expected: FAIL because function does not exist.
 Implement:
 
 ```ts
-export function renderPrettyQRSvg(options: PrettyQROptions): string {
+export function renderStyledQRSvg(options: StyledQROptions): string {
   return new SVGRenderer(options).generate();
 }
 ```
 
-Refactor `PrettyQR.toSVG()` to call this function.
+Refactor `StyledQR.toSVG()` to call this function.
 
 **Step 4: Run test to verify it passes**
 
-Run: `pnpm run test src/render/render-prettyqr-svg.test.ts`  
+Run: `pnpm run test src/render/render-styledqr-svg.test.ts`  
 Expected: PASS.
 
 **Step 5: Commit**
 
 ```bash
-git add src/index.ts src/render/render-prettyqr-svg.ts src/render/render-prettyqr-svg.test.ts
+git add src/index.ts src/render/render-styledqr-svg.ts src/render/render-styledqr-svg.test.ts
 git commit -m "refactor: extract pure svg render function"
 ```
 
 ### Task 5: Implement SSR-First React Component
 
 **Files:**
-- Create: `src/react/PrettyQR.tsx`
-- Test: `src/react/PrettyQR.test.tsx`
+- Create: `src/react/StyledQR.tsx`
+- Test: `src/react/StyledQR.test.tsx`
 
 **Step 1: Write the failing test**
 
@@ -208,7 +208,7 @@ Tests:
 
 **Step 2: Run test to verify it fails**
 
-Run: `pnpm run test src/react/PrettyQR.test.tsx`  
+Run: `pnpm run test src/react/StyledQR.test.tsx`  
 Expected: FAIL because component is missing.
 
 **Step 3: Write minimal implementation**
@@ -221,14 +221,14 @@ Implement component:
 
 **Step 4: Run test to verify it passes**
 
-Run: `pnpm run test src/react/PrettyQR.test.tsx`  
+Run: `pnpm run test src/react/StyledQR.test.tsx`  
 Expected: PASS.
 
 **Step 5: Commit**
 
 ```bash
-git add src/react/PrettyQR.tsx src/react/PrettyQR.test.tsx
-git commit -m "feat: add ssr-first react PrettyQR component"
+git add src/react/StyledQR.tsx src/react/StyledQR.test.tsx
+git commit -m "feat: add ssr-first react StyledQR component"
 ```
 
 ### Task 6: Add React Entrypoint + Package Exports
@@ -244,9 +244,9 @@ git commit -m "feat: add ssr-first react PrettyQR component"
 Smoke test import path:
 
 ```ts
-it('exports PrettyQR from react entrypoint', async () => {
+it('exports StyledQR from react entrypoint', async () => {
   const mod = await import('./index');
-  expect(mod.PrettyQR).toBeDefined();
+  expect(mod.StyledQR).toBeDefined();
 });
 ```
 
@@ -257,7 +257,7 @@ Expected: FAIL because entrypoint/exports missing.
 
 **Step 3: Write minimal implementation**
 
-- Export `PrettyQR`, `PrettyQRProps`, `PrettyQRPreset`.
+- Export `StyledQR`, `StyledQRProps`, `StyledQRPreset`.
 - Configure tsup for multi-entry build.
 - Add `./react` in `exports` map with `types/import/require`.
 
@@ -270,7 +270,7 @@ Expected: PASS.
 
 ```bash
 git add src/react/index.ts package.json tsup.config.ts src/react/entrypoint.test.ts
-git commit -m "build: add prettyqr/react entrypoint exports"
+git commit -m "build: add styledqr/react entrypoint exports"
 ```
 
 ### Task 7: Validate Full Quality Gate
@@ -285,7 +285,7 @@ Add one integration-style test for end-to-end props merge in React component.
 
 **Step 2: Run test to verify it fails**
 
-Run: `pnpm run test src/react/PrettyQR.integration.test.tsx`  
+Run: `pnpm run test src/react/StyledQR.integration.test.tsx`  
 Expected: FAIL before final adjustments.
 
 **Step 3: Write minimal implementation**
@@ -319,8 +319,8 @@ git commit -m "docs: add react sdk usage and finalize quality gates"
 
 ## Definition of Done
 
-- `prettyqr/react` import works with types.
-- SSR-safe `PrettyQR` renders deterministic SVG.
+- `styledqr/react` import works with types.
+- SSR-safe `StyledQR` renders deterministic SVG.
 - Merge precedence is fully tested.
 - Fallback/error behavior is covered by tests.
 - Build, typecheck, lint/check, and tests are green.

@@ -2,9 +2,9 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Position PrettyQR as a Tailwind/shadcn-friendly QR primitive with polished API usage docs and copy-paste composition recipes.
+**Goal:** Position StyledQR as a Tailwind/shadcn-friendly QR primitive with polished API usage docs and copy-paste composition recipes.
 
-**Architecture:** Keep the library scope focused on one React primitive (`PrettyQR`) and avoid shipping higher-level UI wrappers. Improve integration ergonomics (className/responsive usage guidance) and add shadcn composition recipes in docs/examples only. Validate with focused React/render tests and full package quality gates.
+**Architecture:** Keep the library scope focused on one React primitive (`StyledQR`) and avoid shipping higher-level UI wrappers. Improve integration ergonomics (className/responsive usage guidance) and add shadcn composition recipes in docs/examples only. Validate with focused React/render tests and full package quality gates.
 
 **Tech Stack:** TypeScript, React 18+, Vitest, Vite playground, Tailwind/shadcn composition patterns.
 
@@ -14,14 +14,14 @@
 
 **Files:**
 - Modify: `README.md`
-- Test: `src/react/PrettyQR.test.tsx`
+- Test: `src/react/StyledQR.test.tsx`
 
 **Step 1: Write the failing test**
 
 ```ts
 it('keeps className on the wrapper so Tailwind utilities can target nested svg', () => {
-  render(<PrettyQR value="https://example.com" className="w-full [&>svg]:h-auto" />);
-  const wrapper = screen.getByTestId('prettyqr-wrapper');
+  render(<StyledQR value="https://example.com" className="w-full [&>svg]:h-auto" />);
+  const wrapper = screen.getByTestId('styledqr-wrapper');
   expect(wrapper.className).toContain('w-full');
   expect(wrapper.className).toContain('[&>svg]:h-auto');
 });
@@ -29,7 +29,7 @@ it('keeps className on the wrapper so Tailwind utilities can target nested svg',
 
 **Step 2: Run test to verify it fails**
 
-Run: `pnpm run test -- src/react/PrettyQR.test.tsx`
+Run: `pnpm run test -- src/react/StyledQR.test.tsx`
 Expected: FAIL due to missing `data-testid` or missing assertion target.
 
 **Step 3: Write minimal implementation**
@@ -37,8 +37,8 @@ Expected: FAIL due to missing `data-testid` or missing assertion target.
 ```tsx
 return (
   <div
-    data-testid='prettyqr-wrapper'
-    data-prettyqr='true'
+    data-testid='styledqr-wrapper'
+    data-styledqr='true'
     className={props.className}
     style={props.style as CSSProperties | undefined}
     dangerouslySetInnerHTML={{ __html: svg }}
@@ -48,14 +48,14 @@ return (
 
 **Step 4: Run test to verify it passes**
 
-Run: `pnpm run test -- src/react/PrettyQR.test.tsx`
+Run: `pnpm run test -- src/react/StyledQR.test.tsx`
 Expected: PASS.
 
 **Step 5: Commit**
 
 ```bash
-git add README.md src/react/PrettyQR.test.tsx src/react/PrettyQR.tsx
-git commit -m "docs: add tailwind integration guidance for PrettyQR"
+git add README.md src/react/StyledQR.test.tsx src/react/StyledQR.tsx
+git commit -m "docs: add tailwind integration guidance for StyledQR"
 ```
 
 ### Task 2: Document Primitive Positioning + Shadcn Strategy
@@ -68,9 +68,9 @@ git commit -m "docs: add tailwind integration guidance for PrettyQR"
 Create an expectation in docs lint/snapshot test (if no docs test exists, add one lightweight string assertion in existing smoke suite):
 
 ```ts
-it('describes PrettyQR as a composable primitive for shadcn', () => {
+it('describes StyledQR as a composable primitive for shadcn', () => {
   const readme = fs.readFileSync('README.md', 'utf8');
-  expect(readme).toContain('PrettyQR is a rendering primitive');
+  expect(readme).toContain('StyledQR is a rendering primitive');
   expect(readme).toContain('Bring your own shadcn/ui components');
 });
 ```
@@ -87,7 +87,7 @@ Add a new section in README:
 ```md
 ## Shadcn/ui Positioning
 
-PrettyQR is a rendering primitive.
+StyledQR is a rendering primitive.
 Bring your own shadcn/ui components (Card, Dialog, Tabs, etc.) around it.
 ```
 
@@ -100,7 +100,7 @@ Expected: PASS.
 
 ```bash
 git add README.md src/test/smoke.test.ts
-git commit -m "docs: define PrettyQR primitive positioning for shadcn"
+git commit -m "docs: define StyledQR primitive positioning for shadcn"
 ```
 
 ### Task 3: Add Shadcn Recipe Snippets (Docs-Only, Copy-Paste)
@@ -114,9 +114,9 @@ git commit -m "docs: define PrettyQR primitive positioning for shadcn"
 ```ts
 it('contains three shadcn composition recipes', () => {
   const recipes = fs.readFileSync('docs/style-system/shadcn-recipes.md', 'utf8');
-  expect(recipes).toContain('Card + PrettyQR');
-  expect(recipes).toContain('Dialog + PrettyQR');
-  expect(recipes).toContain('Tabs + PrettyQR');
+  expect(recipes).toContain('Card + StyledQR');
+  expect(recipes).toContain('Dialog + StyledQR');
+  expect(recipes).toContain('Tabs + StyledQR');
 });
 ```
 
@@ -132,7 +132,7 @@ Create recipe doc with complete snippets:
 ```tsx
 <Card className='w-full max-w-sm'>
   <CardContent className='p-6'>
-    <PrettyQR
+    <StyledQR
       value='solana:...'
       className='w-full [&>svg]:w-full [&>svg]:h-auto'
       preset='rounded'
@@ -150,7 +150,7 @@ Expected: PASS.
 
 ```bash
 git add README.md docs/style-system/shadcn-recipes.md src/test/smoke.test.ts
-git commit -m "docs: add shadcn composition recipes for PrettyQR"
+git commit -m "docs: add shadcn composition recipes for StyledQR"
 ```
 
 ### Task 4: Add Playground Preset Scenarios For Shadcn-like Layouts
@@ -158,13 +158,13 @@ git commit -m "docs: add shadcn composition recipes for PrettyQR"
 **Files:**
 - Modify: `examples/playground/main.ts`
 - Modify: `examples/playground/index.html`
-- Test: `src/render/render-prettyqr-svg.test.ts`
+- Test: `src/render/render-styledqr-svg.test.ts`
 
 **Step 1: Write the failing test**
 
 ```ts
 it('renders rounded preset config used in shadcn payment recipe', () => {
-  const svg = renderPrettyQRSvg({
+  const svg = renderStyledQRSvg({
     text: 'solana:pay-demo',
     style: { patternStyle: 'rounded', foreground: '#229ed9' },
   });
@@ -174,7 +174,7 @@ it('renders rounded preset config used in shadcn payment recipe', () => {
 
 **Step 2: Run test to verify it fails**
 
-Run: `pnpm run test -- src/render/render-prettyqr-svg.test.ts`
+Run: `pnpm run test -- src/render/render-styledqr-svg.test.ts`
 Expected: FAIL if scenario constants are not wired.
 
 **Step 3: Write minimal implementation**
@@ -183,13 +183,13 @@ Add ready-to-preview scenarios in playground controls and route them to existing
 
 **Step 4: Run test to verify it passes**
 
-Run: `pnpm run test -- src/render/render-prettyqr-svg.test.ts`
+Run: `pnpm run test -- src/render/render-styledqr-svg.test.ts`
 Expected: PASS.
 
 **Step 5: Commit**
 
 ```bash
-git add examples/playground/main.ts examples/playground/index.html src/render/render-prettyqr-svg.test.ts
+git add examples/playground/main.ts examples/playground/index.html src/render/render-styledqr-svg.test.ts
 git commit -m "feat: add shadcn-oriented playground scenarios"
 ```
 
@@ -205,7 +205,7 @@ Add one integration assertion for accessibility:
 
 ```ts
 it('includes role and optional aria-label in rendered svg for recipe examples', () => {
-  render(<PrettyQR value='https://example.com' aria-label='Payment QR' />);
+  render(<StyledQR value='https://example.com' aria-label='Payment QR' />);
   const wrapper = screen.getByLabelText('Payment QR');
   expect(wrapper).toBeInTheDocument();
 });
@@ -213,7 +213,7 @@ it('includes role and optional aria-label in rendered svg for recipe examples', 
 
 **Step 2: Run test to verify it fails**
 
-Run: `pnpm run test -- src/react/PrettyQR.integration.test.tsx`
+Run: `pnpm run test -- src/react/StyledQR.integration.test.tsx`
 Expected: FAIL if query target is mismatched.
 
 **Step 3: Write minimal implementation**
@@ -243,5 +243,5 @@ git commit -m "chore: finalize shadcn primitive integration docs and validation"
 
 - Follow @superpowers:test-driven-development strictly for each behavior change.
 - Keep YAGNI: no new UI-kit components, no `Card` abstractions in package API.
-- Keep messaging consistent: PrettyQR is primitive-first; shadcn is composition layer.
+- Keep messaging consistent: StyledQR is primitive-first; shadcn is composition layer.
 - If any visual regression appears in `rounded`, stop and re-run the contour tests before continuing.

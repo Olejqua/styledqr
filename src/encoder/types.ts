@@ -35,7 +35,7 @@ export interface StyleOptions {
   patternStyle?: 'square' | 'rounded' | 'circle' | 'diamond';
 }
 
-export interface PrettyQROptions {
+export interface StyledQROptions {
   text: string;
   size?: number;
   margin?: number;

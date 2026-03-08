@@ -1,4 +1,4 @@
-import PrettyQR from '../../src/index';
+import StyledQR from '../../src/index';
 
 // DOM elements
 const textInput = document.getElementById('text') as HTMLTextAreaElement;
@@ -50,7 +50,7 @@ const presets = {
   },
 };
 
-let currentQR: PrettyQR | null = null;
+let currentQR: StyledQR | null = null;
 
 const recipeScenarios: Record<
   string,
@@ -154,7 +154,7 @@ function applyPreset(presetName: string) {
 function generateQR() {
   try {
     const options = {
-      text: textInput.value || 'https://github.com/your-username/prettyqr',
+      text: textInput.value || 'https://github.com/your-username/styledqr',
       size: parseInt(sizeInput.value, 10),
       errorCorrectionLevel: errorLevelSelect.value as 'L' | 'M' | 'Q' | 'H',
       style: {
@@ -173,7 +173,7 @@ function generateQR() {
         : undefined,
     };
 
-    currentQR = new PrettyQR(options);
+    currentQR = new StyledQR(options);
     qrCodeDiv.innerHTML = currentQR.toSVG();
   } catch (error) {
     qrCodeDiv.innerHTML = `<div style="color: red; text-align: center; padding: 20px;">
@@ -185,7 +185,7 @@ function generateQR() {
 async function downloadSVG() {
   if (!currentQR) return;
   try {
-    await currentQR.download('pretty-qr.svg');
+    await currentQR.download('styled-qr.svg');
   } catch (_error) {}
 }
 
@@ -212,7 +212,7 @@ async function downloadPNG() {
           const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = url;
-          link.download = 'pretty-qr.png';
+          link.download = 'styled-qr.png';
           link.click();
           URL.revokeObjectURL(url);
         }

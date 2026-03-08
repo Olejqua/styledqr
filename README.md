@@ -1,4 +1,4 @@
-# PrettyQR
+# StyledQR
 
 Beautiful, stylable QR codes (SVG) with logo and patterns.
 
@@ -15,19 +15,19 @@ Beautiful, stylable QR codes (SVG) with logo and patterns.
 ## Installation
 
 ```bash
-npm install prettyqr
+npm install styledqr
 # or
-yarn add prettyqr
+yarn add styledqr
 # or
-pnpm add prettyqr
+pnpm add styledqr
 ```
 
 ## Usage
 
 ```typescript
-import { PrettyQR } from 'prettyqr'
+import { StyledQR } from 'styledqr'
 
-const qr = new PrettyQR({
+const qr = new StyledQR({
   text: 'Hello, World!',
   size: 256,
   logo: {
@@ -48,11 +48,11 @@ const svg = qr.toSVG()
 ## React Usage
 
 ```tsx
-import { PrettyQR } from 'prettyqr/react';
+import { StyledQR } from 'styledqr/react';
 
 export function App() {
   return (
-    <PrettyQR
+    <StyledQR
       value='https://example.com'
       size={256}
       preset='rounded'
@@ -69,14 +69,14 @@ export function App() {
 
 ## Tailwind Usage
 
-PrettyQR is a rendering primitive. Bring your own shadcn/ui components (Card, Dialog, Tabs, etc.) around it.
+StyledQR is a rendering primitive. Bring your own shadcn/ui components (Card, Dialog, Tabs, etc.) around it.
 
 ```tsx
-import { PrettyQR } from 'prettyqr/react';
+import { StyledQR } from 'styledqr/react';
 
 export function PaymentQr() {
   return (
-    <PrettyQR
+    <StyledQR
       value='solana:pay-demo'
       preset='rounded'
       className='w-full [&>svg]:w-full [&>svg]:h-auto'

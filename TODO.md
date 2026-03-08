@@ -1,11 +1,11 @@
-# PrettyQR - TODO List
+# StyledQR - TODO List
 
 ## 🎯 Immediate Tasks (Next 1-2 weeks)
 
 ### High Priority
 - [ ] **Add PNG Export** - Implement direct PNG generation from SVG
   - [ ] Research Canvas-based PNG generation
-  - [ ] Add PNG export method to PrettyQR class
+  - [ ] Add PNG export method to StyledQR class
   - [ ] Test PNG quality and performance
   - [ ] Update playground with PNG download button
 

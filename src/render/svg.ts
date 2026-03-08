@@ -1,9 +1,9 @@
 import { QR_CONFIG } from '../config/qr-config';
 import { QRCodeAdapter } from '../encoder/adapter-qrcode-generator';
 import type {
-  PrettyQROptions,
   QRCodeData,
   QRPerformanceMetrics,
+  StyledQROptions,
   StyleOptions,
 } from '../encoder/types';
 import { BackgroundRenderer } from './background-renderer';
@@ -14,9 +14,9 @@ import { SVGStringBuilder } from './svg-builder';
 
 export class SVGRenderer {
   private qrAdapter: QRCodeAdapter;
-  private options: PrettyQROptions;
+  private options: StyledQROptions;
 
-  constructor(options: PrettyQROptions) {
+  constructor(options: StyledQROptions) {
     this.qrAdapter = new QRCodeAdapter();
     this.options = options;
   }

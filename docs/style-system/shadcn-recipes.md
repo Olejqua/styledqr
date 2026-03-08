@@ -1,12 +1,12 @@
-# Shadcn Recipes For PrettyQR
+# Shadcn Recipes For StyledQR
 
-PrettyQR is a primitive. These snippets show composition with shadcn/ui building blocks.
+StyledQR is a primitive. These snippets show composition with shadcn/ui building blocks.
 
-## Card + PrettyQR
+## Card + StyledQR
 
 ```tsx
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { PrettyQR } from 'prettyqr/react';
+import { StyledQR } from 'styledqr/react';
 
 export function PaymentCard() {
   return (
@@ -15,7 +15,7 @@ export function PaymentCard() {
         <CardTitle>Pay With QR</CardTitle>
       </CardHeader>
       <CardContent>
-        <PrettyQR
+        <StyledQR
           value='solana:merchant-wallet?amount=12.50'
           preset='rounded'
           className='w-full [&>svg]:w-full [&>svg]:h-auto'
@@ -27,7 +27,7 @@ export function PaymentCard() {
 }
 ```
 
-## Dialog + PrettyQR
+## Dialog + StyledQR
 
 ```tsx
 import { Button } from '@/components/ui/button';
@@ -38,7 +38,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { PrettyQR } from 'prettyqr/react';
+import { StyledQR } from 'styledqr/react';
 
 export function QrDialog() {
   return (
@@ -50,7 +50,7 @@ export function QrDialog() {
         <DialogHeader>
           <DialogTitle>Scan To Pay</DialogTitle>
         </DialogHeader>
-        <PrettyQR
+        <StyledQR
           value='https://example.com/pay/checkout-id'
           preset='rounded'
           className='w-full [&>svg]:w-full [&>svg]:h-auto'
@@ -62,11 +62,11 @@ export function QrDialog() {
 }
 ```
 
-## Tabs + PrettyQR
+## Tabs + StyledQR
 
 ```tsx
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { PrettyQR } from 'prettyqr/react';
+import { StyledQR } from 'styledqr/react';
 
 export function NetworkTabs() {
   return (
@@ -77,7 +77,7 @@ export function NetworkTabs() {
       </TabsList>
 
       <TabsContent value='solana'>
-        <PrettyQR
+        <StyledQR
           value='solana:merchant-wallet'
           preset='rounded'
           className='w-full [&>svg]:w-full [&>svg]:h-auto'
@@ -86,7 +86,7 @@ export function NetworkTabs() {
       </TabsContent>
 
       <TabsContent value='ethereum'>
-        <PrettyQR
+        <StyledQR
           value='ethereum:0x1234...abcd'
           preset='default'
           className='w-full [&>svg]:w-full [&>svg]:h-auto'

@@ -1,5 +1,5 @@
-import type { PrettyQROptions, QRPerformanceMetrics } from './encoder/types';
-import { renderPrettyQRSvg } from './render/render-prettyqr-svg';
+import type { QRPerformanceMetrics, StyledQROptions } from './encoder/types';
+import { renderStyledQRSvg } from './render/render-styledqr-svg';
 import { SVGRenderer } from './render/svg';
 
 export { QR_CONFIG } from './config/qr-config';
@@ -8,9 +8,9 @@ export type {
   LogoFormat,
   LogoOptions,
   LogoScaleStrategy,
-  PrettyQROptions,
   QRCodeData,
   QRCodeOptions,
+  StyledQROptions,
   StyleOptions,
 } from './encoder/types';
 export type {
@@ -26,20 +26,20 @@ export { EyeRenderer } from './render/eyes';
 export { LogoRenderer } from './render/logo';
 export { LogoValidator } from './render/logo-validator';
 export { ModuleRenderer } from './render/module-renderer';
-export { renderPrettyQRSvg } from './render/render-prettyqr-svg';
+export { renderStyledQRSvg } from './render/render-styledqr-svg';
 export type { ShapeOptions } from './render/shapes';
 export { ShapeRenderer } from './render/shapes';
 export { SVGRenderer } from './render/svg';
 export { SVGStringBuilder } from './render/svg-builder';
 
 /**
- * Main PrettyQR class - simple API for generating beautiful QR codes
+ * Main StyledQR class - simple API for generating beautiful QR codes
  */
-export class PrettyQR {
+export class StyledQR {
   private renderer: SVGRenderer;
-  private options: PrettyQROptions;
+  private options: StyledQROptions;
 
-  constructor(options: PrettyQROptions) {
+  constructor(options: StyledQROptions) {
     this.options = options;
     this.renderer = new SVGRenderer(options);
   }
@@ -48,7 +48,7 @@ export class PrettyQR {
    * Generate SVG string
    */
   toSVG(): string {
-    return renderPrettyQRSvg(this.options);
+    return renderStyledQRSvg(this.options);
   }
 
   /**
@@ -91,4 +91,4 @@ export class PrettyQR {
 }
 
 // Default export
-export default PrettyQR;
+export default StyledQR;

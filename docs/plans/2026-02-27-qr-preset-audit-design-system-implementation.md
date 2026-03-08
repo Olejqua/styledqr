@@ -6,7 +6,7 @@
 
 **Architecture:** Add a small `audit` domain in the library with typed scoring criteria, weighted aggregation, and preset passports. Keep all combinations allowed (no hard bans) and return soft outputs only: total score, risk level, tone, and recommendation text. Expose a tiny report generator script and document current presets (`default`, `telegram`, `mono`) using the same deterministic scoring model.
 
-**Tech Stack:** TypeScript, Vitest, existing PrettyQR preset config, Markdown docs.
+**Tech Stack:** TypeScript, Vitest, existing StyledQR preset config, Markdown docs.
 
 ---
 

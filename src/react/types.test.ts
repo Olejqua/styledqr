@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import type { PrettyQRProps } from './types';
+import type { StyledQRProps } from './types';
 import './types';
 
-describe('PrettyQRProps', () => {
+describe('StyledQRProps', () => {
   it('is importable', () => {
-    const props: PrettyQRProps = { value: 'hello' };
+    const props: StyledQRProps = { value: 'hello' };
     expect(props.value).toBe('hello');
   });
 });

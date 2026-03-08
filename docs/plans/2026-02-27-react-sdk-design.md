@@ -1,15 +1,15 @@
-# PrettyQR React SDK Design
+# StyledQR React SDK Design
 
 ## Summary
 
-This document defines the first React SDK milestone for PrettyQR using an SSR-first architecture. The SDK will be published as an additional entrypoint in the existing package: `prettyqr/react`. The first release focuses on one component (`PrettyQR`) and one composable options pipeline that maps a simple React API into the existing core renderer.
+This document defines the first React SDK milestone for StyledQR using an SSR-first architecture. The SDK will be published as an additional entrypoint in the existing package: `styledqr/react`. The first release focuses on one component (`StyledQR`) and one composable options pipeline that maps a simple React API into the existing core renderer.
 
 The design intentionally avoids extra abstractions in v1 (no provider, no hook-only API, no multi-package split). The goal is to restore development momentum with a stable, testable surface that supports both quick usage and full control.
 
 ## Goals
 
 - Ship an SSR-safe React component for Next.js and plain React projects.
-- Keep the existing package (`prettyqr`) and add a React entrypoint.
+- Keep the existing package (`styledqr`) and add a React entrypoint.
 - Support hybrid API:
   - Short props (`value`, `size`, `preset`)
   - Full override via `options`
@@ -18,7 +18,7 @@ The design intentionally avoids extra abstractions in v1 (no provider, no hook-o
 
 ## Non-goals (v1)
 
-- Separate package `@prettyqr/react`
+- Separate package `@styledqr/react`
 - Hook/context API
 - Client-only rendering mode
 - Advanced runtime theming system
@@ -26,30 +26,30 @@ The design intentionally avoids extra abstractions in v1 (no provider, no hook-o
 ## Recommended Architecture (Option B)
 
 1. Extract a pure core function:
-   - `renderPrettyQRSvg(options: PrettyQROptions): string`
+   - `renderStyledQRSvg(options: StyledQROptions): string`
    - Lives in the core package, no React dependency.
 2. React layer:
-   - `PrettyQR` component in `src/react/PrettyQR.tsx`
-   - Maps props to core options and calls `renderPrettyQRSvg`.
+   - `StyledQR` component in `src/react/StyledQR.tsx`
+   - Maps props to core options and calls `renderStyledQRSvg`.
 3. Preset system:
    - Static preset map with minimal styles (`telegram`, `minimal`, `mono`).
    - Merge order: `preset < short props < options`.
 4. Entry points:
-   - Keep `prettyqr` root exports as-is.
-   - Add `prettyqr/react` export target.
+   - Keep `styledqr` root exports as-is.
+   - Add `styledqr/react` export target.
 
 This approach minimizes client JavaScript and aligns with Vercel guidance: keep heavy computation in pure functions and avoid unnecessary client state/effects for deterministic rendering.
 
 ## Public API (v1)
 
 ```ts
-type PrettyQRPreset = 'telegram' | 'minimal' | 'mono';
+type StyledQRPreset = 'telegram' | 'minimal' | 'mono';
 
-interface PrettyQRProps {
+interface StyledQRProps {
   value: string;
   size?: number;
-  preset?: PrettyQRPreset;
-  options?: Omit<PrettyQROptions, 'text' | 'size'> & { size?: number };
+  preset?: StyledQRPreset;
+  options?: Omit<StyledQROptions, 'text' | 'size'> & { size?: number };
   className?: string;
   style?: React.CSSProperties;
   title?: string;
@@ -73,7 +73,7 @@ Behavior:
 2. Resolve preset defaults.
 3. Merge normalized short props.
 4. Merge `options` as final override.
-5. Call `renderPrettyQRSvg(finalOptions)`.
+5. Call `renderStyledQRSvg(finalOptions)`.
 6. Return component with deterministic SVG markup.
 
 Validation policy:
@@ -86,7 +86,7 @@ Validation policy:
 - Development:
   - Throw explicit errors for invalid required input.
 - Production:
-  - Render safe fallback container with `data-prettyqr-error` for diagnostics.
+  - Render safe fallback container with `data-styledqr-error` for diagnostics.
 - Never access `window`/`document` in React render path.
 
 ## Testing Strategy
@@ -100,7 +100,7 @@ Validation policy:
    - fallback behavior on render errors
    - stable output for same props
 3. Package surface tests
-   - `prettyqr/react` export and type checks
+   - `styledqr/react` export and type checks
 
 Development follows strict red-green-refactor for each behavior.
 

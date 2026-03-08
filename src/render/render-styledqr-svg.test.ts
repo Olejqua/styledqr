@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { renderPrettyQRSvg } from './render-prettyqr-svg';
+import { renderStyledQRSvg } from './render-styledqr-svg';
 
-describe('renderPrettyQRSvg', () => {
+describe('renderStyledQRSvg', () => {
   it('is deterministic for the same input', () => {
     const options = {
       text: 'hello',
@@ -9,20 +9,20 @@ describe('renderPrettyQRSvg', () => {
       style: { foreground: '#000000', background: '#ffffff' },
     };
 
-    expect(renderPrettyQRSvg(options)).toBe(renderPrettyQRSvg(options));
+    expect(renderStyledQRSvg(options)).toBe(renderStyledQRSvg(options));
   });
 
   it('returns svg markup', () => {
-    const output = renderPrettyQRSvg({ text: 'hello' });
+    const output = renderStyledQRSvg({ text: 'hello' });
     expect(output).toContain('<svg');
   });
 
   it('changes output when style changes', () => {
-    const a = renderPrettyQRSvg({
+    const a = renderStyledQRSvg({
       text: 'hello',
       style: { foreground: '#000000' },
     });
-    const b = renderPrettyQRSvg({
+    const b = renderStyledQRSvg({
       text: 'hello',
       style: { foreground: '#ff0000' },
     });
@@ -31,7 +31,7 @@ describe('renderPrettyQRSvg', () => {
   });
 
   it('renders rounded payment recipe style as contour path output', () => {
-    const output = renderPrettyQRSvg({
+    const output = renderStyledQRSvg({
       text: 'solana:pay-demo',
       style: {
         foreground: '#229ed9',

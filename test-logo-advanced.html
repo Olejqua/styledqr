@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrettyQR Advanced Logo Test</title>
+    <title>StyledQR Advanced Logo Test</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -123,7 +123,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>🎨 PrettyQR Advanced Logo Testing</h1>
+        <h1>🎨 StyledQR Advanced Logo Testing</h1>
         <p>Test different logo formats, sizes, and scaling strategies</p>
     </div>
 
@@ -197,7 +197,7 @@
     </div>
 
     <script type="module">
-        import { PrettyQR, LogoValidator } from './dist/index.js';
+        import { StyledQR, LogoValidator } from './dist/index.js';
 
         // Test logos of different formats
         const testLogos = {
@@ -241,7 +241,7 @@
                 // Validate first
                 const validation = LogoValidator.validate(config);
                 
-                const qr = new PrettyQR({
+                const qr = new StyledQR({
                     text: 'Advanced Logo Test - https://github.com',
                     size: 300,
                     logo: config,
@@ -302,7 +302,7 @@
             Object.entries(testLogos).forEach(([format, logos]) => {
                 Object.entries(logos).forEach(([name, src]) => {
                     try {
-                        const qr = new PrettyQR({
+                        const qr = new StyledQR({
                             text: `${format.toUpperCase()} Test - ${name}`,
                             size: 200,
                             logo: {
@@ -361,7 +361,7 @@
             strategies.forEach(strategy => {
                 sizes.forEach(size => {
                     try {
-                        const qr = new PrettyQR({
+                        const qr = new StyledQR({
                             text: `${strategy} ${size}px`,
                             size: 200,
                             logo: {
@@ -423,7 +423,7 @@
             
             errorCases.forEach(testCase => {
                 try {
-                    const qr = new PrettyQR({
+                    const qr = new StyledQR({
                         text: 'Error Test',
                         size: 200,
                         logo: {

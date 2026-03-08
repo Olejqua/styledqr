@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { PrettyQR } from './PrettyQR';
+import { StyledQR } from './StyledQR';
 
-describe('PrettyQR integration', () => {
+describe('StyledQR integration', () => {
   it('applies props merge precedence end-to-end', () => {
-    const withShortOnly = render(<PrettyQR value='hello' preset='rounded' size={180} />);
+    const withShortOnly = render(<StyledQR value='hello' preset='rounded' size={180} />);
     const withOptionsOverride = render(
-      <PrettyQR
+      <StyledQR
         value='hello'
         preset='rounded'
         size={180}
@@ -25,7 +25,7 @@ describe('PrettyQR integration', () => {
     );
 
     expect(withOptionsOverride.container.firstElementChild).toHaveAttribute(
-      'data-prettyqr',
+      'data-styledqr',
       'true',
     );
     expect(withOptionsOverride.container.querySelector('svg')?.outerHTML).toContain('#ff0000');
@@ -33,7 +33,7 @@ describe('PrettyQR integration', () => {
   });
 
   it('exposes aria-label on rendered svg', () => {
-    render(<PrettyQR value='https://example.com' aria-label='Payment QR' />);
+    render(<StyledQR value='https://example.com' aria-label='Payment QR' />);
     const svg = screen.getByLabelText('Payment QR');
 
     expect(svg.tagName.toLowerCase()).toBe('svg');

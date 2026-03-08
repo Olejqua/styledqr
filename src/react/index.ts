@@ -1,2 +1,2 @@
-export { PrettyQR } from './PrettyQR';
-export type { PrettyQRPreset, PrettyQRProps } from './types';
+export { StyledQR } from './StyledQR';
+export type { StyledQRPreset, StyledQRProps } from './types';

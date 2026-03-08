@@ -1,6 +1,6 @@
-import type { PrettyQROptionsOverride, PrettyQRPreset } from './types';
+import type { StyledQROptionsOverride, StyledQRPreset } from './types';
 
-export const PRETTY_QR_PRESETS: Record<PrettyQRPreset, PrettyQROptionsOverride> = {
+export const STYLED_QR_PRESETS: Record<StyledQRPreset, StyledQROptionsOverride> = {
   default: {
     margin: 4,
     size: 256,

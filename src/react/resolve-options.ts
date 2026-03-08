@@ -1,6 +1,6 @@
-import type { PrettyQROptions } from '../encoder/types';
-import { PRETTY_QR_PRESETS } from './presets';
-import type { PrettyQROptionsOverride, PrettyQRPreset, PrettyQRProps } from './types';
+import type { StyledQROptions } from '../encoder/types';
+import { STYLED_QR_PRESETS } from './presets';
+import type { StyledQROptionsOverride, StyledQRPreset, StyledQRProps } from './types';
 
 function clampSize(size: number | undefined): number | undefined {
   if (size === undefined || Number.isNaN(size)) {
@@ -11,10 +11,10 @@ function clampSize(size: number | undefined): number | undefined {
 }
 
 function mergeOptions(
-  base: PrettyQROptionsOverride,
-  shortProps: PrettyQROptions,
-  override: PrettyQROptionsOverride | undefined,
-): PrettyQROptions {
+  base: StyledQROptionsOverride,
+  shortProps: StyledQROptions,
+  override: StyledQROptionsOverride | undefined,
+): StyledQROptions {
   return {
     ...base,
     ...shortProps,
@@ -27,14 +27,14 @@ function mergeOptions(
   };
 }
 
-export function resolvePrettyQROptions(props: PrettyQRProps): PrettyQROptions {
+export function resolveStyledQROptions(props: StyledQRProps): StyledQROptions {
   if (!props.value.trim()) {
     throw new Error('value is required');
   }
 
-  const presetName = (props.preset ?? 'default') as PrettyQRPreset;
-  const preset = PRETTY_QR_PRESETS[presetName] ?? PRETTY_QR_PRESETS.default;
-  const shortProps: PrettyQROptions = {
+  const presetName = (props.preset ?? 'default') as StyledQRPreset;
+  const preset = STYLED_QR_PRESETS[presetName] ?? STYLED_QR_PRESETS.default;
+  const shortProps: StyledQROptions = {
     text: props.value,
     size: clampSize(props.size),
   };

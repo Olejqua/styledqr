@@ -1,7 +1,7 @@
-# PrettyQR - Development Progress & Roadmap
+# StyledQR - Development Progress & Roadmap
 
 ## 🎯 Project Overview
-PrettyQR is a TypeScript library for generating beautiful, customizable QR codes with support for various patterns, separate eye styling, and logo embedding. Focus on custom patterns: standard, rounded, dots, and diamonds.
+StyledQR is a TypeScript library for generating beautiful, customizable QR codes with support for various patterns, separate eye styling, and logo embedding. Focus on custom patterns: standard, rounded, dots, and diamonds.
 
 ## ✅ Completed Features
 
