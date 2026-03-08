@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+### Patch Changes
+
+- [`4024d36`](https://github.com/Olejqua/styledqr/commit/4024d3623dfcc7d37aef1bb078bf0f48208647d8) Thanks [@Olejqua](https://github.com/Olejqua)! - chore: trigger next release with updated metadata and release pipeline adjustments.
+
 ## 0.1.1
 
 ### Patch Changes
@@ -14,9 +20,11 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 ## [0.1.1] - 2026-03-08
 
 ### Added
+
 - Extended npm keywords for better discovery in React/QR/Tailwind searches.
 
 ### Changed
+
 - Updated release guidance to trusted publishing with GitHub Actions OIDC.
 - Reduced published artifact size by disabling JavaScript source maps in build output.
 
